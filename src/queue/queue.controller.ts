@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
-
-@Controller('queue')
-export class QueueController {}
+@Post('create')
+create(@Body('service') service: string) {
+  return this.queueService.createToken(service);
+}
