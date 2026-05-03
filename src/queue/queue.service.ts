@@ -3,10 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Queue } from './queue.schema';
 import { CreateQueueDto } from './dto/create-queue.dto';
+import { QueueGateway } from '../websocket/queue.gateway';
 
 @Injectable()
 export class QueueService {
-  constructor(@InjectModel(Queue.name) private queueModel: Model<Queue>) {}
+  constructor(
+    @InjectModel(Queue.name) private queueModel: Model<Queue>,
+    private queueGateway: QueueGateway,
+  ) {}
 
   async createToken(createQueueDto: CreateQueueDto) {
     const { service } = createQueueDto;
@@ -42,7 +46,9 @@ export class QueueService {
       status: 'waiting',
     });
 
-    return newToken.save();
+    const saved = await newToken.save();
+    this.queueGateway.sendTokenCreated(saved);
+    return saved;
   }
 
   async getQueueStatus(service?: string) {
@@ -65,6 +71,7 @@ export class QueueService {
       );
     }
 
+    this.queueGateway.sendTokenCalled(nextInQueue);
     return nextInQueue;
   }
 
@@ -77,6 +84,7 @@ export class QueueService {
       throw new NotFoundException(`Token with ID ${tokenId} not found`);
     }
 
+    this.queueGateway.sendTokenCompleted(updated);
     return updated;
   }
 }
