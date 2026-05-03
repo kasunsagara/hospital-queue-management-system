@@ -1,15 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type QueueDocument = HydratedDocument<Queue>;
 
 @Schema({ timestamps: true })
 export class Queue {
-
-  @Prop()
+  @Prop({ required: true, unique: true })
   token: string;
 
-  @Prop()
+  @Prop({ required: true })
   service: string;
 
-  @Prop({ default: 'waiting' })
+  @Prop({
+    enum: ['waiting', 'called', 'completed', 'cancelled'],
+    default: 'waiting',
+  })
   status: string;
 }
 

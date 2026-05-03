@@ -1,18 +1,66 @@
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import * as bcrypt from 'bcrypt';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
-async login(data) {
-  const user = await this.userModel.findOne({ email: data.email });
+@Injectable()
+export class AuthService {
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
-  if (!user) throw new Error('User not found');
+  async register(registerDto: RegisterDto) {
+    const existingUser = await this.usersService.findOneByEmail(
+      registerDto.email,
+    );
+    if (existingUser) {
+      throw new ConflictException('User already exists');
+    }
 
-  const isMatch = await bcrypt.compare(data.password, user.password);
+    const user = await this.usersService.create(registerDto);
 
-  if (!isMatch) throw new Error('Invalid password');
+    return {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+  }
 
-  const token = this.jwtService.sign({
-    userId: user._id,
-    role: user.role,
-  });
+  async login(loginDto: LoginDto) {
+    const user = await this.usersService.findOneByEmail(loginDto.email);
 
-  return { token };
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const isMatch = await bcrypt.compare(loginDto.password, user.password);
+
+    if (!isMatch) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const payload = {
+      sub: user._id,
+      email: user.email,
+      role: user.role,
+    };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    };
+  }
 }
