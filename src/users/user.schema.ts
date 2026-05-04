@@ -20,11 +20,31 @@ export class User {
   @Prop({ required: false })
   bloodGroup: string;
 
+  @Prop({
+    type: {
+      type: string,
+      enum: ['Point'],
+      default: 'Point',
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  })
+  location: {
+    type: string;
+    coordinates: number[];
+  };
+
+  @Prop({ default: false })
+  isVerified: boolean;
+
   @Prop({ required: true })
-  location: string;
+  contactNumber: string;
 
   @Prop({ default: true })
   availability: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.index({ location: '2dsphere' });

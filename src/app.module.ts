@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { RequestModule } from './request/request.module';
 import { WebsocketModule } from './websocket/websocket.module';
+import { PatientsModule } from './patients/patients.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { WebsocketModule } from './websocket/websocket.module';
     UsersModule,
     RequestModule,
     WebsocketModule,
+    PatientsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

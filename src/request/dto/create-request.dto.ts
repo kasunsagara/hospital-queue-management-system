@@ -11,7 +11,13 @@ export class CreateRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  location: string;
+  patientId: string;
+
+  @IsNotEmpty()
+  location: {
+    type: string;
+    coordinates: number[];
+  };
 
   @IsEnum(['high', 'normal'])
   urgency: string;

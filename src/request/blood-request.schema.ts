@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { User } from '../users/user.schema';
+import { Patient } from '../patients/patient.schema';
 
 export type BloodRequestDocument = HydratedDocument<BloodRequest>;
 
@@ -12,8 +13,21 @@ export class BloodRequest {
   @Prop({ required: true })
   units: number;
 
-  @Prop({ required: true })
-  location: string;
+  @Prop({
+    type: {
+      type: string,
+      enum: ['Point'],
+      default: 'Point',
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  })
+  location: {
+    type: string;
+    coordinates: number[];
+  };
 
   @Prop({ enum: ['high', 'normal'], default: 'normal' })
   urgency: string;
@@ -24,6 +38,9 @@ export class BloodRequest {
   })
   status: string;
 
+  @Prop({ type: Types.ObjectId, ref: 'Patient', required: true })
+  patientId: Types.ObjectId | Patient;
+
   @Prop({ type: Types.ObjectId, ref: 'User' })
   donorId?: Types.ObjectId | User;
 
@@ -32,3 +49,4 @@ export class BloodRequest {
 }
 
 export const BloodRequestSchema = SchemaFactory.createForClass(BloodRequest);
+BloodRequestSchema.index({ location: '2dsphere' });

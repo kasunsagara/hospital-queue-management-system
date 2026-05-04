@@ -24,4 +24,16 @@ export class UsersService {
     const newUser = new this.userModel(userData);
     return newUser.save();
   }
+
+  async verifyHospital(id: string): Promise<UserDocument | null> {
+    return this.userModel.findByIdAndUpdate(id, { isVerified: true }, { new: true }).exec();
+  }
+
+  async updateAvailability(id: string, availability: boolean): Promise<UserDocument | null> {
+    return this.userModel.findByIdAndUpdate(id, { availability }, { new: true }).exec();
+  }
+
+  async findAllUsers(): Promise<UserDocument[]> {
+    return this.userModel.find().exec();
+  }
 }

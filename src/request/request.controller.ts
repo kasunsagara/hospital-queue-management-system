@@ -41,10 +41,14 @@ export class RequestController {
     return this.requestService.acceptRequest(id, req.user.userId);
   }
 
-  @Patch('complete/:id')
-  @Roles('hospital', 'admin')
-  complete(@Param('id') id: string) {
-    return this.requestService.completeRequest(id);
+  @Patch('status/:id')
+  @Roles('hospital')
+  updateStatus(
+    @Param('id') id: string,
+    @Body('status') status: string,
+    @Request() req,
+  ) {
+    return this.requestService.updateStatus(id, status, req.user.userId);
   }
 
   @Get('matches/:id')
