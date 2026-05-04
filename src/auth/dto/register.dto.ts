@@ -30,8 +30,8 @@ export class RegisterDto {
 
   @IsNotEmpty()
   location: {
-    type: string;
-    coordinates: number[];
+    type: 'Point';
+    coordinates: [number, number];
   };
 
   @IsString()
