@@ -17,14 +17,14 @@ export class BloodRequest {
     type: {
       type: String,
       enum: ['Point'],
-      default: 'Point',
+      required: false,
     },
     coordinates: {
       type: [Number],
-      required: true,
+      required: false,
     },
   })
-  location: {
+  location?: {
     type: string;
     coordinates: number[];
   };

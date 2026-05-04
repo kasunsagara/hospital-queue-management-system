@@ -24,14 +24,14 @@ export class User {
     type: {
       type: String,
       enum: ['Point'],
-      default: 'Point',
+      required: false,
     },
     coordinates: {
       type: [Number],
       required: false,
     },
   })
-  location: {
+  location?: {
     type: string;
     coordinates: number[];
   };
