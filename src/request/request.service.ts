@@ -113,8 +113,8 @@ export class RequestService {
 
   async findMatchingDonors(requestId: string): Promise<UserDocument[]> {
     const request = await this.requestModel.findById(requestId);
-    if (!request) {
-      throw new NotFoundException('Request not found');
+    if (!request || !request.location) {
+      return [];
     }
 
     // Find donors within 10km (10000 meters)
