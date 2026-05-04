@@ -22,7 +22,7 @@ export class User {
 
   @Prop({
     type: {
-      type: string,
+      type: String,
       enum: ['Point'],
       default: 'Point',
     },

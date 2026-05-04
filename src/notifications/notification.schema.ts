@@ -19,6 +19,8 @@ export class Notification {
 
   @Prop({ type: Types.ObjectId, ref: 'BloodRequest' })
   requestId?: Types.ObjectId;
+
+  createdAt: Date;
 }
 
 export const NotificationSchema = SchemaFactory.createForClass(Notification);
