@@ -14,11 +14,11 @@ import { Logger } from '@nestjs/common';
     origin: '*',
   },
 })
-export class QueueGateway
+export class RequestGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer() server: Server;
-  private logger: Logger = new Logger('QueueGateway');
+  private logger: Logger = new Logger('RequestGateway');
 
   afterInit(server: Server) {
     this.logger.log('WebSocket Gateway Initialized');
@@ -32,24 +32,25 @@ export class QueueGateway
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
-  // Emit event when a new token is created
-  sendTokenCreated(token: any) {
-    this.server.emit('tokenCreated', token);
+  // Emit event when a new request is created
+  sendRequestCreated(request: any) {
+    this.server.emit('requestCreated', request);
   }
 
-  // Emit event when a patient is called
-  sendTokenCalled(token: any) {
-    this.server.emit('tokenCalled', token);
+  // Emit event when a request is matched
+  sendRequestMatched(request: any) {
+    this.server.emit('requestMatched', request);
   }
 
-  // Emit event when a token is completed
-  sendTokenCompleted(token: any) {
-    this.server.emit('tokenCompleted', token);
+  // Emit event when a request is completed
+  sendRequestCompleted(request: any) {
+    this.server.emit('requestCompleted', request);
   }
 
-  @SubscribeMessage('joinQueue')
-  handleJoinQueue(client: Socket, payload: string): void {
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(client: Socket, payload: string): void {
     client.join(payload);
     this.logger.log(`Client ${client.id} joined room ${payload}`);
   }
 }
+

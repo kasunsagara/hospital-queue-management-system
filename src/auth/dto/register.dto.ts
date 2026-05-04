@@ -21,6 +21,17 @@ export class RegisterDto {
   password: string;
 
   @IsOptional()
-  @IsEnum(['user', 'admin', 'counter'])
+  @IsEnum(['donor', 'hospital', 'admin'])
   role?: string;
+
+  @IsOptional()
+  @IsString()
+  bloodGroup?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  location: string;
+
+  @IsOptional()
+  availability?: boolean;
 }

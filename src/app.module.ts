@@ -5,9 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { QueueModule } from './queue/queue.module';
-import { ServicesModule } from './services/services.module';
-import { CountersModule } from './counters/counters.module';
+import { RequestModule } from './request/request.module';
 import { WebsocketModule } from './websocket/websocket.module';
 
 @Module({
@@ -24,9 +22,7 @@ import { WebsocketModule } from './websocket/websocket.module';
     }),
     AuthModule,
     UsersModule,
-    QueueModule,
-    ServicesModule,
-    CountersModule,
+    RequestModule,
     WebsocketModule,
   ],
   controllers: [AppController],

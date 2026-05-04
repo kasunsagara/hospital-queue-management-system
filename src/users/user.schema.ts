@@ -14,8 +14,17 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ enum: ['user', 'admin', 'counter'], default: 'user' })
+  @Prop({ enum: ['donor', 'hospital', 'admin'], default: 'donor' })
   role: string;
+
+  @Prop({ required: false })
+  bloodGroup: string;
+
+  @Prop({ required: true })
+  location: string;
+
+  @Prop({ default: true })
+  availability: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { QueueGateway } from './queue.gateway';
+import { RequestGateway } from './request.gateway';
 
 @Module({
-  providers: [QueueGateway],
-  exports: [QueueGateway],
+  providers: [RequestGateway],
+  exports: [RequestGateway],
 })
 export class WebsocketModule {}
+

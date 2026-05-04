@@ -31,6 +31,9 @@ export class AuthService {
       name: user.name,
       email: user.email,
       role: user.role,
+      bloodGroup: user.bloodGroup,
+      location: user.location,
+      availability: user.availability,
     };
   }
 
@@ -60,6 +63,9 @@ export class AuthService {
         name: user.name,
         email: user.email,
         role: user.role,
+        bloodGroup: user.bloodGroup,
+        location: user.location,
+        availability: user.availability,
       },
     };
   }
