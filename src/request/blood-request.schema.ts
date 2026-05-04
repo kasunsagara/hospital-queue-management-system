@@ -49,4 +49,4 @@ export class BloodRequest {
 }
 
 export const BloodRequestSchema = SchemaFactory.createForClass(BloodRequest);
-BloodRequestSchema.index({ location: '2dsphere' });
+BloodRequestSchema.index({ location: '2dsphere' }, { sparse: true });

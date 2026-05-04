@@ -28,15 +28,15 @@ export class RegisterDto {
   @IsString()
   bloodGroup?: string;
 
-  @IsNotEmpty()
-  location: {
+  @IsOptional()
+  location?: {
     type: 'Point';
     coordinates: [number, number];
   };
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  contactNumber: string;
+  contactNumber?: string;
 
   @IsOptional()
   availability?: boolean;

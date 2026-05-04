@@ -28,7 +28,7 @@ export class User {
     },
     coordinates: {
       type: [Number],
-      required: true,
+      required: false,
     },
   })
   location: {
@@ -39,7 +39,7 @@ export class User {
   @Prop({ default: false })
   isVerified: boolean;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   contactNumber: string;
 
   @Prop({ default: true })
@@ -47,4 +47,4 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-UserSchema.index({ location: '2dsphere' });
+UserSchema.index({ location: '2dsphere' }, { sparse: true });
