@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DonorDashboard from './pages/DonorDashboard';
 import HospitalDashboard from './pages/HospitalDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import Footer from './components/Footer';
 import './index.css';
 
@@ -19,21 +20,29 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
-            <Route 
-              path="/donor-dashboard" 
+
+            <Route
+              path="/donor-dashboard"
               element={
                 <ProtectedRoute allowedRoles={['donor']}>
                   <DonorDashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-            
-            <Route 
-              path="/hospital-dashboard" 
+
+            <Route
+              path="/hospital-dashboard"
               element={
                 <ProtectedRoute allowedRoles={['hospital']}>
                   <HospitalDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/admin-dashboard" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AdminDashboard />
                 </ProtectedRoute>
               } 
             />
@@ -42,10 +51,10 @@ function App() {
             <Route path="*" element={<Home />} />
           </Routes>
         </main>
-        
+
         <Footer />
       </div>
-      
+
       <style>{`
         .app-container {
           min-height: 100vh;

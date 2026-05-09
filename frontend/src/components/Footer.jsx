@@ -4,7 +4,7 @@ const Footer = () => {
   const location = useLocation();
 
   // Do not show footer on login and register pages
-  const dashboardPaths = ['/donor-dashboard', '/hospital-dashboard'];
+  const dashboardPaths = ['/donor-dashboard', '/hospital-dashboard', '/admin-dashboard'];
   if (location.pathname === '/login' || location.pathname === '/register' || dashboardPaths.includes(location.pathname)) {
     return null;
   }

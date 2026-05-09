@@ -24,6 +24,7 @@ const Login = () => {
       const role = response.data.user.role;
       if (role === 'donor') navigate('/donor-dashboard');
       else if (role === 'hospital') navigate('/hospital-dashboard');
+      else if (role === 'admin') navigate('/admin-dashboard');
       else navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
