@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Users, ClipboardList, CheckCircle2, XCircle, Clock, AlertCircle, UserPlus } from 'lucide-react';
+import { Plus, Users, ClipboardList, CheckCircle2, XCircle, Clock, AlertCircle, UserPlus, LogOut } from 'lucide-react';
 import api from '../api/axios';
 
 const HospitalDashboard = () => {
@@ -9,6 +10,13 @@ const HospitalDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPatientModal, setShowPatientModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
   
   const [formData, setFormData] = useState({
     patientId: '',
@@ -45,13 +53,20 @@ const HospitalDashboard = () => {
 
   const handleCreateRequest = async (e) => {
     e.preventDefault();
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    const payload = {
+      ...formData,
+      location: user.location
+    };
+
     try {
-      await api.post('/request/create', formData);
+      await api.post('/request/create', payload);
       setShowModal(false);
       setFormData({ patientId: '', bloodGroup: '', units: 1, urgency: 'normal' });
       fetchData();
     } catch (err) {
-      alert("Failed to create request");
+      alert(err.response?.data?.message || "Failed to create request");
     }
   };
 
@@ -86,6 +101,9 @@ const HospitalDashboard = () => {
             className="btn btn-primary px-8 py-4"
           >
             <Plus size={20} /> New Blood Request
+          </button>
+          <button onClick={handleLogout} className="btn btn-outline border-danger text-danger hover:bg-danger hover:text-white p-4">
+            <LogOut size={20} />
           </button>
         </div>
       </div>

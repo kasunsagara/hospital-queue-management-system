@@ -8,7 +8,8 @@ const Navbar = () => {
   const token = localStorage.getItem('token');
 
   // Do not show navbar on login and register pages
-  if (location.pathname === '/login' || location.pathname === '/register') {
+  const dashboardPaths = ['/donor-dashboard', '/hospital-dashboard'];
+  if (location.pathname === '/login' || location.pathname === '/register' || dashboardPaths.includes(location.pathname)) {
     return null;
   }
 

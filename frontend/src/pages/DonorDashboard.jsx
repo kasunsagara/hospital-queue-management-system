@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Droplet, MapPin, Calendar, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { Droplet, MapPin, Calendar, CheckCircle2, AlertCircle, Clock, LogOut } from 'lucide-react';
 import api from '../api/axios';
 
 const DonorDashboard = () => {
@@ -8,6 +9,13 @@ const DonorDashboard = () => {
   const [myResponses, setMyResponses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
 
   useEffect(() => {
     fetchData();
@@ -46,9 +54,14 @@ const DonorDashboard = () => {
             Donor Dashboard • Blood Group: <span className="font-bold text-primary">{user.bloodGroup}</span>
           </p>
         </div>
-        <div className="glass-card flex items-center gap-4 px-8 py-4">
-          <div className={`h-3 w-3 rounded-full ${user.availability ? 'bg-success' : 'bg-text-muted'}`}></div>
-          <span className="font-semibold">{user.availability ? 'Available for Donation' : 'Currently Unavailable'}</span>
+        <div className="flex items-center gap-4">
+          <div className="glass-card flex items-center gap-4 px-8 py-4">
+            <div className={`h-3 w-3 rounded-full ${user.availability ? 'bg-success' : 'bg-text-muted'}`}></div>
+            <span className="font-semibold">{user.availability ? 'Available for Donation' : 'Currently Unavailable'}</span>
+          </div>
+          <button onClick={handleLogout} className="btn btn-outline border-danger text-danger hover:bg-danger hover:text-white p-4">
+            <LogOut size={20} />
+          </button>
         </div>
       </div>
 
