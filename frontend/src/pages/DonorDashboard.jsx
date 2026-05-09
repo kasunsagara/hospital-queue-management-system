@@ -38,82 +38,87 @@ const DonorDashboard = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '2rem 0' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+    <div className="container py-8">
+      <div className="mb-12 flex flex-wrap items-center justify-between gap-6">
         <div>
-          <h1 style={{ fontSize: '2.5rem' }}>Welcome, {user.name}</h1>
-          <p style={{ color: 'var(--text-muted)' }}>Donor Dashboard • Blood Group: <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{user.bloodGroup}</span></p>
+          <h1 className="text-4xl font-bold">Welcome, {user.name}</h1>
+          <p className="text-text-muted">
+            Donor Dashboard • Blood Group: <span className="font-bold text-primary">{user.bloodGroup}</span>
+          </p>
         </div>
-        <div className="glass-card" style={{ padding: '1rem 2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: user.availability ? 'var(--success)' : 'var(--text-muted)' }}></div>
-          <span style={{ fontWeight: '600' }}>{user.availability ? 'Available for Donation' : 'Currently Unavailable'}</span>
+        <div className="glass-card flex items-center gap-4 px-8 py-4">
+          <div className={`h-3 w-3 rounded-full ${user.availability ? 'bg-success' : 'bg-text-muted'}`}></div>
+          <span className="font-semibold">{user.availability ? 'Available for Donation' : 'Currently Unavailable'}</span>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
-        <section>
-          <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <AlertCircle color="var(--primary)" /> Urgent Requests Nearby
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <section className="lg:col-span-2">
+          <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold">
+            <AlertCircle className="text-primary" /> Urgent Requests Nearby
           </h2>
           
           {loading ? (
             <p>Loading requests...</p>
           ) : requests.length > 0 ? (
-            <div style={{ display: 'grid', gap: '1rem' }}>
+            <div className="space-y-4">
               {requests.map((req) => (
                 <motion.div 
                   key={req._id}
-                  className="glass-card" 
-                  style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                  className="glass-card flex items-center justify-between p-6"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
-                  <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                    <div style={{ background: 'rgba(255, 77, 77, 0.1)', padding: '1rem', borderRadius: '12px', textAlign: 'center', minWidth: '70px' }}>
-                      <Droplet color="var(--primary)" fill="var(--primary)" style={{ marginBottom: '0.25rem' }} />
-                      <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{req.bloodGroup}</div>
+                  <div className="flex items-center gap-6">
+                    <div className="min-w-[70px] rounded-xl bg-primary/10 p-4 text-center">
+                      <Droplet className="mb-1 text-primary fill-primary" />
+                      <div className="text-lg font-bold">{req.bloodGroup}</div>
                     </div>
                     <div>
-                      <h4 style={{ marginBottom: '0.25rem' }}>{req.units} Units Required</h4>
-                      <div style={{ display: 'flex', gap: '1rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><MapPin size={14} /> Hospital Location</span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Clock size={14} /> {req.urgency === 'high' ? 'Urgent' : 'Normal'}</span>
+                      <h4 className="mb-1 text-lg font-bold">{req.units} Units Required</h4>
+                      <div className="flex gap-4 text-sm text-text-muted">
+                        <span className="flex items-center gap-1"><MapPin size={14} /> Hospital Location</span>
+                        <span className="flex items-center gap-1">
+                          <Clock size={14} /> {req.urgency === 'high' ? 'Urgent' : 'Normal'}
+                        </span>
                       </div>
                     </div>
                   </div>
-                  <button onClick={() => handleAccept(req._id)} className="btn btn-primary">Accept Request</button>
+                  <button onClick={() => handleAccept(req._id)} className="btn btn-primary">
+                    Accept Request
+                  </button>
                 </motion.div>
               ))}
             </div>
           ) : (
-            <div className="glass-card" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-              <CheckCircle2 size={48} style={{ marginBottom: '1rem', opacity: 0.5 }} />
+            <div className="glass-card py-12 text-center text-text-muted">
+              <CheckCircle2 size={48} className="mx-auto mb-4 opacity-50" />
               <p>No urgent requests for your blood group right now.</p>
             </div>
           )}
         </section>
 
         <section>
-          <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Calendar color="var(--primary)" /> My Activities
+          <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold">
+            <Calendar className="text-primary" /> My Activities
           </h2>
-          <div className="glass-card" style={{ padding: '1.5rem' }}>
+          <div className="glass-card p-6">
             {myResponses.length > 0 ? (
-              <div style={{ display: 'grid', gap: '1rem' }}>
+              <div className="space-y-6">
                 {myResponses.map((res) => (
-                  <div key={res._id} style={{ paddingBottom: '1rem', borderBottom: '1px solid var(--glass-border)', lastChild: { borderBottom: 'none' } }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                      <span style={{ fontWeight: '600' }}>{res.bloodGroup} Donation</span>
+                  <div key={res._id} className="border-b border-glass-border pb-4 last:border-0 last:pb-0">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="font-semibold">{res.bloodGroup} Donation</span>
                       <span className={`badge badge-${res.status}`}>{res.status}</span>
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    <div className="text-xs text-text-muted">
                       {new Date(res.createdAt).toLocaleDateString()}
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', textAlign: 'center' }}>No recent activities.</p>
+              <p className="py-4 text-center text-sm text-text-muted">No recent activities.</p>
             )}
           </div>
         </section>

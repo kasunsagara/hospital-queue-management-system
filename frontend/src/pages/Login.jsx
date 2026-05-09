@@ -33,34 +33,33 @@ const Login = () => {
   };
 
   return (
-    <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+    <div className="container flex min-h-[80vh] items-center justify-center">
       <motion.div 
-        className="glass-card" 
-        style={{ width: '100%', maxWidth: '450px', padding: '3rem' }}
+        className="glass-card w-full max-w-[450px] p-12"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
       >
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Welcome Back</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Login to manage your blood donations</p>
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-3xl font-bold">Welcome Back</h2>
+          <p className="text-text-muted">Login to manage your blood donations</p>
         </div>
 
         {error && (
-          <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--danger)', color: 'var(--danger)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div className="mb-6 flex items-center gap-3 rounded-lg border border-danger bg-danger/10 p-4 text-danger">
             <AlertCircle size={20} />
-            <span style={{ fontSize: '0.875rem' }}>{error}</span>
+            <span className="text-sm">{error}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label>Email Address</label>
-            <div style={{ position: 'relative' }}>
-              <Mail size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <div className="relative">
+              <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
               <input 
                 type="email" 
                 placeholder="name@example.com" 
-                style={{ paddingLeft: '3rem' }}
+                className="pl-12"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required 
@@ -70,12 +69,12 @@ const Login = () => {
 
           <div className="input-group">
             <label>Password</label>
-            <div style={{ position: 'relative' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <div className="relative">
+              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
               <input 
                 type="password" 
                 placeholder="••••••••" 
-                style={{ paddingLeft: '3rem' }}
+                className="pl-12"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required 
@@ -85,28 +84,17 @@ const Login = () => {
 
           <button 
             type="submit" 
-            className="btn btn-primary" 
-            style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}
+            className="btn btn-primary w-full justify-center py-4"
             disabled={loading}
           >
             {loading ? <Loader2 className="animate-spin" /> : 'Login'}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-          Don't have an account? <Link to="/register" style={{ color: 'var(--primary)', fontWeight: '600' }}>Register now</Link>
+        <p className="mt-8 text-center text-sm text-text-muted">
+          Don't have an account? <Link to="/register" className="font-semibold text-primary">Register now</Link>
         </p>
       </motion.div>
-      
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin {
-          animation: spin 1s linear infinite;
-        }
-      `}</style>
     </div>
   );
 };

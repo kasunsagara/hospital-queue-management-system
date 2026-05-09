@@ -39,11 +39,12 @@ const Register = () => {
     setLoading(true);
     setError('');
 
+    const { latitude, longitude, ...rest } = formData;
     const payload = {
-      ...formData,
-      location: formData.latitude ? {
+      ...rest,
+      location: latitude ? {
         type: 'Point',
-        coordinates: [formData.longitude, formData.latitude]
+        coordinates: [longitude, latitude]
       } : undefined
     };
 
@@ -58,28 +59,27 @@ const Register = () => {
   };
 
   return (
-    <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '4rem 0' }}>
+    <div className="container flex items-center justify-center py-16">
       <motion.div 
-        className="glass-card" 
-        style={{ width: '100%', maxWidth: '600px', padding: '3rem' }}
+        className="glass-card w-full max-w-[600px] p-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Create Account</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Join the life-saving network today</p>
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-3xl font-bold">Create Account</h2>
+          <p className="text-text-muted">Join the life-saving network today</p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="input-group">
               <label>Full Name</label>
-              <div style={{ position: 'relative' }}>
-                <User size={18} className="input-icon" />
+              <div className="relative">
+                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input 
                   type="text" 
                   placeholder="John Doe" 
-                  className="with-icon"
+                  className="pl-12"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required 
@@ -89,12 +89,12 @@ const Register = () => {
 
             <div className="input-group">
               <label>Email</label>
-              <div style={{ position: 'relative' }}>
-                <Mail size={18} className="input-icon" />
+              <div className="relative">
+                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input 
                   type="email" 
                   placeholder="john@example.com" 
-                  className="with-icon"
+                  className="pl-12"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required 
@@ -103,15 +103,15 @@ const Register = () => {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="input-group">
               <label>Password</label>
-              <div style={{ position: 'relative' }}>
-                <Lock size={18} className="input-icon" />
+              <div className="relative">
+                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input 
                   type="password" 
                   placeholder="••••••••" 
-                  className="with-icon"
+                  className="pl-12"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   required 
@@ -121,12 +121,12 @@ const Register = () => {
 
             <div className="input-group">
               <label>Contact Number</label>
-              <div style={{ position: 'relative' }}>
-                <Phone size={18} className="input-icon" />
+              <div className="relative">
+                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input 
                   type="text" 
                   placeholder="+1 234 567 890" 
-                  className="with-icon"
+                  className="pl-12"
                   value={formData.contactNumber}
                   onChange={(e) => setFormData({...formData, contactNumber: e.target.value})}
                   required 
@@ -135,7 +135,7 @@ const Register = () => {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="input-group">
               <label>Join as</label>
               <select 
@@ -164,45 +164,28 @@ const Register = () => {
             )}
           </div>
 
-          <div className="input-group" style={{ opacity: formData.latitude ? 1 : 0.5 }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className={`input-group transition-opacity duration-300 ${formData.latitude ? 'opacity-100' : 'opacity-50'}`}>
+            <label className="flex items-center gap-2">
               <MapPin size={14} /> Location Status
             </label>
-            <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', fontSize: '0.875rem' }}>
+            <div className="rounded-lg bg-white/5 p-3 text-sm">
               {formData.latitude ? `Location Captured (${formData.latitude.toFixed(4)}, ${formData.longitude.toFixed(4)})` : 'Detecting Location...'}
             </div>
           </div>
 
           <button 
             type="submit" 
-            className="btn btn-primary" 
-            style={{ width: '100%', justifyContent: 'center', padding: '1rem', marginTop: '1rem' }}
+            className="btn btn-primary mt-4 w-full justify-center py-4"
             disabled={loading}
           >
             {loading ? <Loader2 className="animate-spin" /> : 'Register'}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-          Already have an account? <Link to="/login" style={{ color: 'var(--primary)', fontWeight: '600' }}>Login here</Link>
+        <p className="mt-8 text-center text-sm text-text-muted">
+          Already have an account? <Link to="/login" className="font-semibold text-primary">Login here</Link>
         </p>
       </motion.div>
-      
-      <style>{`
-        .input-icon {
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          color: var(--text-muted);
-        }
-        input.with-icon {
-          padding-left: 3rem !rem;
-        }
-        select {
-          cursor: pointer;
-        }
-      `}</style>
     </div>
   );
 };

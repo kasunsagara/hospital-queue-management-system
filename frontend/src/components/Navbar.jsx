@@ -19,60 +19,47 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar glass-card" style={{ 
-      margin: '0', 
-      padding: '1rem 2rem', 
-      display: 'flex', 
-      justifyContent: 'space-between', 
-      alignItems: 'center',
-      position: 'sticky',
-      top: '0',
-      zIndex: 1000,
-      borderRadius: '0',
-      borderLeft: 'none',
-      borderRight: 'none',
-      borderTop: 'none'
-    }}>
-      <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', fontSize: '1.25rem' }}>
-        <Droplet color="#ff4d4d" fill="#ff4d4d" size={24} />
+    <nav className="glass-card sticky top-0 z-50 m-0 flex items-center justify-between rounded-none border-x-0 border-t-0 px-8 py-4">
+      <Link to="/" className="flex items-center gap-2 text-xl font-bold">
+        <Droplet className="text-primary fill-primary" size={24} />
         <span>BloodSync</span>
       </Link>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-        <Link to="/" className="nav-link"><Home size={20} /></Link>
+      <div className="flex items-center gap-6">
+        <Link to="/" className="text-text-muted transition-colors hover:text-text-main">
+          <Home size={20} />
+        </Link>
         
         {token ? (
           <>
-            {user?.role === 'donor' && <Link to="/donor-dashboard" className="nav-link">Dashboard</Link>}
-            {user?.role === 'hospital' && <Link to="/hospital-dashboard" className="nav-link">Dashboard</Link>}
+            {user?.role === 'donor' && (
+              <Link to="/donor-dashboard" className="text-sm font-medium text-text-muted transition-colors hover:text-text-main">
+                Dashboard
+              </Link>
+            )}
+            {user?.role === 'hospital' && (
+              <Link to="/hospital-dashboard" className="text-sm font-medium text-text-muted transition-colors hover:text-text-main">
+                Dashboard
+              </Link>
+            )}
             
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', paddingLeft: '1rem', borderLeft: '1px solid var(--glass-border)' }}>
-              <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{user?.name}</span>
-              <button onClick={handleLogout} className="btn-outline" style={{ padding: '0.5rem', borderRadius: '50%' }}>
+            <div className="flex items-center gap-3 border-l border-glass-border pl-4">
+              <span className="text-sm text-text-muted">{user?.name}</span>
+              <button 
+                onClick={handleLogout} 
+                className="btn-outline rounded-full p-2"
+              >
                 <LogOut size={18} />
               </button>
             </div>
           </>
         ) : (
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className="flex gap-4">
             <Link to="/login" className="btn btn-outline">Login</Link>
             <Link to="/register" className="btn btn-primary">Register</Link>
           </div>
         )}
       </div>
-      
-      <style>{`
-        .nav-link {
-          color: var(--text-muted);
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .nav-link:hover {
-          color: var(--text-main);
-        }
-      `}</style>
     </nav>
   );
 };
