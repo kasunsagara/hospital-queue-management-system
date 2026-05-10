@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaTint, FaUser, FaSignOutAlt, FaHome } from 'react-icons/fa';
-import { MdDashboard } from 'react-icons/md';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    toast.success('Logged out successfully');
     navigate('/');
   };
 

@@ -1,13 +1,17 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { FaUsers, FaHospital, FaClipboardList, FaTint, FaSignOutAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { MdDashboard, MdTimeline } from 'react-icons/md';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
+  const navigate = useNavigate();
+  
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = '/';
+    toast.success('Logged out successfully');
+    navigate('/');
   };
 
   const getLinks = (role) => {
