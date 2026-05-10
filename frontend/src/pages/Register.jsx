@@ -73,12 +73,12 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="input-group">
-              <label>Full Name</label>
+              <label>Name</label>
               <div className="relative">
                 <FaUser size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="name"
                   className="pl-12"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -88,12 +88,12 @@ const Register = () => {
             </div>
 
             <div className="input-group">
-              <label>Email</label>
+              <label>Email Address</label>
               <div className="relative">
                 <FaEnvelope size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="email"
-                  placeholder="john@example.com"
+                  placeholder="name@example.com"
                   className="pl-12"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}

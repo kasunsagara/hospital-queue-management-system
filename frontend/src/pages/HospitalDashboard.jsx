@@ -19,7 +19,7 @@ const HospitalDashboard = () => {
     patientId: '',
     bloodGroup: '',
     units: 1,
-    urgency: 'normal'
+    urgency: ''
   });
 
   const [patientFormData, setPatientFormData] = useState({
@@ -31,7 +31,7 @@ const HospitalDashboard = () => {
 
   useEffect(() => {
     fetchData();
-    
+
     const handleViewChange = (e) => setActiveView(e.detail);
     window.addEventListener('change-view', handleViewChange);
     return () => window.removeEventListener('change-view', handleViewChange);
@@ -60,7 +60,7 @@ const HospitalDashboard = () => {
       await api.post('/request/create', payload);
       toast.success('Blood request created successfully!');
       setShowModal(false);
-      setFormData({ patientId: '', bloodGroup: '', units: 1, urgency: 'normal' });
+      setFormData({ patientId: '', bloodGroup: '', units: 1, urgency: '' });
       fetchData();
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to create request");
@@ -81,7 +81,7 @@ const HospitalDashboard = () => {
   };
 
   const renderStats = () => (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
       className="grid grid-cols-1 gap-6 sm:grid-cols-2 mb-12"
     >
@@ -110,52 +110,52 @@ const HospitalDashboard = () => {
     <>
       {renderStats()}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-      <section className="glass-card p-8 lg:col-span-1">
-        <div className="mb-8 flex items-center gap-4">
-          <div className="rounded-xl bg-indigo-500/10 p-3 text-indigo-500">
-            <FaUsers size={20} />
-          </div>
-          <h2 className="text-xl font-bold">Quick Patient List</h2>
-        </div>
-        <div className="space-y-4">
-          {patients.slice(0, 5).map(p => (
-            <div key={p._id} className="flex items-center justify-between rounded-xl bg-white/5 p-4 border border-glass-border">
-              <div>
-                <div className="font-semibold">{p.name}</div>
-                <div className="text-xs text-text-muted">{p.bloodGroup}</div>
-              </div>
-              <div className="text-[10px] uppercase font-bold text-text-muted">ID: {p._id.slice(-4)}</div>
+        <section className="glass-card p-8 lg:col-span-1">
+          <div className="mb-8 flex items-center gap-4">
+            <div className="rounded-xl bg-indigo-500/10 p-3 text-indigo-500">
+              <FaUsers size={20} />
             </div>
-          ))}
-          <button onClick={() => setActiveView('patients')} className="w-full py-2 text-sm font-bold text-primary hover:underline">View All Patients</button>
-        </div>
-      </section>
-
-      <section className="glass-card p-8 lg:col-span-2">
-        <div className="mb-8 flex items-center gap-4">
-          <div className="rounded-xl bg-success/10 p-3 text-success">
-            <FaClipboardList size={20} />
+            <h2 className="text-xl font-bold">Quick Patient List</h2>
           </div>
-          <h2 className="text-xl font-bold">Recent Requests</h2>
-        </div>
-        <div className="space-y-4">
-          {requests.slice(0, 5).map(req => (
-            <div key={req._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-glass-border">
-              <div className="flex items-center gap-4">
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">{req.bloodGroup}</div>
+          <div className="space-y-4">
+            {patients.slice(0, 5).map(p => (
+              <div key={p._id} className="flex items-center justify-between rounded-xl bg-white/5 p-4 border border-glass-border">
                 <div>
-                  <div className="font-bold">{req.units} Units</div>
-                  <div className="text-xs text-text-muted">{req.patientId?.name}</div>
+                  <div className="font-semibold">{p.name}</div>
+                  <div className="text-xs text-text-muted">{p.bloodGroup}</div>
                 </div>
+                <div className="text-[10px] uppercase font-bold text-text-muted">ID: {p._id.slice(-4)}</div>
               </div>
-              <span className={`badge badge-${req.status}`}>{req.status}</span>
+            ))}
+            <button onClick={() => setActiveView('patients')} className="w-full py-2 text-sm font-bold text-primary hover:underline">View All Patients</button>
+          </div>
+        </section>
+
+        <section className="glass-card p-8 lg:col-span-2">
+          <div className="mb-8 flex items-center gap-4">
+            <div className="rounded-xl bg-success/10 p-3 text-success">
+              <FaClipboardList size={20} />
             </div>
-          ))}
-          <button onClick={() => setActiveView('requests')} className="w-full py-2 text-sm font-bold text-primary hover:underline">Manage All Requests</button>
-        </div>
-      </section>
-    </div>
-  </>
+            <h2 className="text-xl font-bold">Recent Requests</h2>
+          </div>
+          <div className="space-y-4">
+            {requests.slice(0, 5).map(req => (
+              <div key={req._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-glass-border">
+                <div className="flex items-center gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">{req.bloodGroup}</div>
+                  <div>
+                    <div className="font-bold">{req.units} Units</div>
+                    <div className="text-xs text-text-muted">{req.patientId?.name}</div>
+                  </div>
+                </div>
+                <span className={`badge badge-${req.status}`}>{req.status}</span>
+              </div>
+            ))}
+            <button onClick={() => setActiveView('requests')} className="w-full py-2 text-sm font-bold text-primary hover:underline">Manage All Requests</button>
+          </div>
+        </section>
+      </div>
+    </>
   );
 
   return (
@@ -184,7 +184,7 @@ const HospitalDashboard = () => {
         {activeView === 'patients' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h2 className="text-2xl font-bold mb-6">Patient Management</h2>
-            <DataTable 
+            <DataTable
               headers={['ID', 'Name', 'Age', 'Gender', 'Blood Group']}
               data={patients}
               emptyMessage="No patients registered yet."
@@ -203,7 +203,7 @@ const HospitalDashboard = () => {
         {activeView === 'requests' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h2 className="text-2xl font-bold mb-6">Blood Requests</h2>
-            <DataTable 
+            <DataTable
               headers={['Patient', 'Blood Group', 'Units', 'Urgency', 'Status', 'Donor']}
               data={requests}
               emptyMessage="No blood requests found."
@@ -231,9 +231,9 @@ const HospitalDashboard = () => {
               <h2 className="mb-8 text-2xl font-bold">New Blood Request</h2>
               {patients.length > 0 ? (
                 <form onSubmit={handleCreateRequest}>
-                  <div className="input-group"><label>Select Patient</label><select className="cursor-pointer" value={formData.patientId} onChange={e => setFormData({...formData, patientId: e.target.value})} required><option value="">Choose Patient</option>{patients.map(p => (<option key={p._id} value={p._id}>{p.name} ({p.bloodGroup})</option>))}</select></div>
-                  <div className="grid grid-cols-2 gap-6"><div className="input-group"><label>Blood Group</label><select className="cursor-pointer" value={formData.bloodGroup} onChange={e => setFormData({...formData, bloodGroup: e.target.value})} required><option value="">Select</option>{['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(g => (<option key={g} value={g}>{g}</option>))}</select></div><div className="input-group"><label>Units Needed</label><input type="number" min="1" value={formData.units} onChange={e => setFormData({...formData, units: parseInt(e.target.value)})} required /></div></div>
-                  <div className="input-group"><label>Urgency Level</label><select className="cursor-pointer" value={formData.urgency} onChange={e => setFormData({...formData, urgency: e.target.value})}><option value="normal">Normal</option><option value="high">High (Urgent)</option></select></div>
+                  <div className="input-group"><label>Select Patient</label><select className="cursor-pointer" value={formData.patientId} onChange={e => setFormData({ ...formData, patientId: e.target.value })} required><option value="">Choose Patient</option>{patients.map(p => (<option key={p._id} value={p._id}>{p.name} ({p.bloodGroup})</option>))}</select></div>
+                  <div className="grid grid-cols-2 gap-6"><div className="input-group"><label>Blood Group</label><select className="cursor-pointer" value={formData.bloodGroup} onChange={e => setFormData({ ...formData, bloodGroup: e.target.value })} required><option value="">Select Group</option>{['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(g => (<option key={g} value={g}>{g}</option>))}</select></div><div className="input-group"><label>Units Needed</label><input type="number" min="1" value={formData.units} onChange={e => setFormData({ ...formData, units: parseInt(e.target.value) })} required /></div></div>
+                  <div className="input-group"><label>Urgency Level</label><select className="cursor-pointer" value={formData.urgency} onChange={e => setFormData({ ...formData, urgency: e.target.value })} required><option value="">Select Level</option><option value="normal">Normal</option><option value="high">High (Urgent)</option></select></div>
                   <button type="submit" className="btn btn-primary mt-4 w-full justify-center py-4">Post Request</button>
                 </form>
               ) : (
@@ -252,9 +252,9 @@ const HospitalDashboard = () => {
             <motion.div className="glass-card relative w-full max-w-[500px] p-12" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}>
               <h2 className="mb-8 text-2xl font-bold">Register New Patient</h2>
               <form onSubmit={handleAddPatient}>
-                <div className="input-group"><label>Patient Name</label><input type="text" placeholder="Enter full name" value={patientFormData.name} onChange={e => setPatientFormData({...patientFormData, name: e.target.value})} required /></div>
-                <div className="grid grid-cols-2 gap-6"><div className="input-group"><label>Age</label><input type="number" placeholder="Age" value={patientFormData.age} onChange={e => setPatientFormData({...patientFormData, age: e.target.value})} required /></div><div className="input-group"><label>Gender</label><select value={patientFormData.gender} onChange={e => setPatientFormData({...patientFormData, gender: e.target.value})}><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div></div>
-                <div className="input-group"><label>Blood Group</label><select value={patientFormData.bloodGroup} onChange={e => setPatientFormData({...patientFormData, bloodGroup: e.target.value})} required><option value="">Select Blood Group</option>{['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(g => (<option key={g} value={g}>{g}</option>))}</select></div>
+                <div className="input-group"><label>Patient Name</label><input type="text" placeholder="name" value={patientFormData.name} onChange={e => setPatientFormData({ ...patientFormData, name: e.target.value })} required /></div>
+                <div className="grid grid-cols-2 gap-6"><div className="input-group"><label>Age</label><input type="number" placeholder="age" value={patientFormData.age} onChange={e => setPatientFormData({ ...patientFormData, age: e.target.value })} required /></div><div className="input-group"><label>Gender</label><select value={patientFormData.gender} onChange={e => setPatientFormData({ ...patientFormData, gender: e.target.value })}><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div></div>
+                <div className="input-group"><label>Blood Group</label><select value={patientFormData.bloodGroup} onChange={e => setPatientFormData({ ...patientFormData, bloodGroup: e.target.value })} required><option value="">Select Blood Group</option>{['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(g => (<option key={g} value={g}>{g}</option>))}</select></div>
                 <button type="submit" className="btn btn-primary mt-4 w-full justify-center py-4">Add Patient</button>
               </form>
             </motion.div>
