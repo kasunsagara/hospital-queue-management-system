@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Users, ClipboardList, UserPlus } from 'lucide-react';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
+import DataTable from '../components/DataTable';
 
 const HospitalDashboard = () => {
   const [requests, setRequests] = useState([]);
@@ -147,50 +148,40 @@ const HospitalDashboard = () => {
         {activeView === 'patients' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h2 className="text-2xl font-bold mb-6">Patient Management</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {patients.map(p => (
-                <div key={p._id} className="glass-card p-6 border border-glass-border">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="h-12 w-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold text-lg">{p.name[0]}</div>
-                    <span className="font-black text-primary text-xl">{p.bloodGroup}</span>
-                  </div>
-                  <div className="font-bold text-lg">{p.name}</div>
-                  <div className="text-sm text-text-muted mt-1">Age: {p.age} • Gender: {p.gender}</div>
-                </div>
-              ))}
-            </div>
+            <DataTable 
+              headers={['ID', 'Name', 'Age', 'Gender', 'Blood Group']}
+              data={patients}
+              emptyMessage="No patients registered yet."
+              renderRow={(p) => (
+                <>
+                  <td className="font-mono text-xs text-text-muted">#{p._id.slice(-6).toUpperCase()}</td>
+                  <td className="font-bold">{p.name}</td>
+                  <td>{p.age}</td>
+                  <td className="capitalize">{p.gender}</td>
+                  <td><span className="font-black text-primary">{p.bloodGroup}</span></td>
+                </>
+              )}
+            />
           </motion.div>
         )}
         {activeView === 'requests' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h2 className="text-2xl font-bold mb-6">Blood Requests</h2>
-            <div className="glass-card overflow-hidden">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="text-left text-sm text-text-muted bg-white/5">
-                    <th className="p-4 font-medium">Patient</th>
-                    <th className="p-4 font-medium">Group</th>
-                    <th className="p-4 font-medium">Units</th>
-                    <th className="p-4 font-medium">Urgency</th>
-                    <th className="p-4 font-medium">Status</th>
-                    <th className="p-4 font-medium">Donor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {requests.map(req => (
-                    <tr key={req._id} className="border-t border-glass-border hover:bg-white/5 transition-colors">
-                      <td className="p-4 font-bold">{req.patientId?.name || 'Unknown'}</td>
-                      <td className="p-4 font-black text-primary">{req.bloodGroup}</td>
-                      <td className="p-4 font-medium">{req.units}</td>
-                      <td className="p-4"><span className={`badge ${req.urgency === 'high' ? 'badge-urgent' : 'badge-pending'}`}>{req.urgency}</span></td>
-                      <td className="p-4"><span className={`badge badge-${req.status}`}>{req.status.replace('_', ' ')}</span></td>
-                      <td className="p-4 text-sm text-text-muted">{req.donorId?.name || 'Searching...'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {requests.length === 0 && <p className="py-20 text-center text-text-muted">No requests found.</p>}
-            </div>
+            <DataTable 
+              headers={['Patient', 'Blood Group', 'Units', 'Urgency', 'Status', 'Donor']}
+              data={requests}
+              emptyMessage="No blood requests found."
+              renderRow={(req) => (
+                <>
+                  <td className="font-bold">{req.patientId?.name || 'Unknown'}</td>
+                  <td className="font-black text-primary">{req.bloodGroup}</td>
+                  <td className="font-medium">{req.units}</td>
+                  <td><span className={`badge ${req.urgency === 'high' ? 'badge-urgent' : 'badge-pending'}`}>{req.urgency}</span></td>
+                  <td><span className={`badge badge-${req.status}`}>{req.status.replace('_', ' ')}</span></td>
+                  <td className="text-sm text-text-muted">{req.donorId?.name || 'Searching...'}</td>
+                </>
+              )}
+            />
           </motion.div>
         )}
       </AnimatePresence>

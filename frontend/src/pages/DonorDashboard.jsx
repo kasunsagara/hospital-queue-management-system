@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Droplet, MapPin, Calendar, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
+import DataTable from '../components/DataTable';
 
 const DonorDashboard = () => {
   const [requests, setRequests] = useState([]);
@@ -134,25 +135,51 @@ const DonorDashboard = () => {
         {activeView === 'requests' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h2 className="text-2xl font-bold mb-6">Available Requests</h2>
-            {/* Same as urgent requests but more detailed or filterable */}
-            {renderDashboard()}
+            <DataTable 
+              headers={['Blood Group', 'Units', 'Urgency', 'Action']}
+              data={requests}
+              emptyMessage="No urgent requests for your blood group right now."
+              renderRow={(req) => (
+                <>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Droplet size={14} className="text-primary fill-primary" />
+                      </div>
+                      <span className="font-bold">{req.bloodGroup}</span>
+                    </div>
+                  </td>
+                  <td className="font-bold">{req.units} Units</td>
+                  <td>
+                    <span className={`badge ${req.urgency === 'high' ? 'badge-urgent' : 'badge-pending'}`}>
+                      {req.urgency}
+                    </span>
+                  </td>
+                  <td>
+                    <button onClick={() => handleAccept(req._id)} className="btn btn-primary px-4 py-2 text-xs">
+                      Accept
+                    </button>
+                  </td>
+                </>
+              )}
+            />
           </motion.div>
         )}
         {activeView === 'activities' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h2 className="text-2xl font-bold mb-6">My Donation History</h2>
-            <div className="glass-card p-8">
-              {myResponses.map((res) => (
-                <div key={res._id} className="flex items-center justify-between py-4 border-b border-glass-border last:border-0">
-                  <div>
-                    <div className="font-bold text-lg">{res.bloodGroup} Donation</div>
-                    <div className="text-sm text-text-muted">{new Date(res.createdAt).toLocaleString()}</div>
-                  </div>
-                  <span className={`badge badge-${res.status}`}>{res.status}</span>
-                </div>
-              ))}
-              {myResponses.length === 0 && <p className="text-center py-8 text-text-muted">No history found.</p>}
-            </div>
+            <DataTable 
+              headers={['Date', 'Type', 'Status']}
+              data={myResponses}
+              emptyMessage="No history found."
+              renderRow={(res) => (
+                <>
+                  <td className="text-sm text-text-muted">{new Date(res.createdAt).toLocaleString()}</td>
+                  <td className="font-bold">{res.bloodGroup} Donation</td>
+                  <td><span className={`badge badge-${res.status}`}>{res.status}</span></td>
+                </>
+              )}
+            />
           </motion.div>
         )}
       </AnimatePresence>

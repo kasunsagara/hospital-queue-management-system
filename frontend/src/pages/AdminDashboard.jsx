@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Droplet, ShieldCheck, ClipboardList, Check, Search, Filter } from 'lucide-react';
+import { Users, Droplet, ShieldCheck, ClipboardList, Check, Search, Filter, Activity } from 'lucide-react';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
+import DataTable from '../components/DataTable';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -105,47 +106,42 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="space-y-4">
-        {filteredUsers.map(user => (
-          <div key={user._id} className="flex items-center justify-between rounded-2xl bg-white/5 p-5 border border-transparent hover:border-glass-border transition-all group">
-            <div className="flex items-center gap-5">
-              <div className={`h-12 w-12 rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg ${user.role === 'hospital' ? 'bg-indigo-500/20 text-indigo-500 shadow-indigo-500/10' : 'bg-primary/20 text-primary shadow-primary/10'}`}>
-                {user.name[0]}
-              </div>
-              <div>
-                <div className="font-bold text-lg group-hover:text-primary transition-colors">{user.name}</div>
-                <div className="text-xs text-text-muted flex items-center gap-2 mt-1">
-                  <span className="uppercase font-bold tracking-wider px-2 py-0.5 bg-white/5 rounded-md">{user.role}</span>
-                  <span>{user.email}</span>
+      <DataTable 
+        headers={['Name', 'Email', 'Role', 'Status', 'Actions']}
+        data={filteredUsers}
+        emptyMessage="No users found matching your search."
+        renderRow={(u) => (
+          <>
+            <td>
+              <div className="flex items-center gap-3">
+                <div className={`h-8 w-8 rounded-lg flex items-center justify-center font-bold text-xs ${u.role === 'hospital' ? 'bg-indigo-500/20 text-indigo-500' : 'bg-primary/20 text-primary'}`}>
+                  {u.name[0]}
                 </div>
+                <span className="font-bold">{u.name}</span>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              {user.role === 'hospital' && !user.isVerified && (
+            </td>
+            <td className="text-sm text-text-muted">{u.email}</td>
+            <td><span className="badge bg-white/5 text-text-muted">{u.role}</span></td>
+            <td>
+              {u.isVerified ? (
+                <span className="badge badge-matched flex items-center gap-1 w-fit"><ShieldCheck size={10} /> Verified</span>
+              ) : (
+                <span className="badge badge-pending">Pending</span>
+              )}
+            </td>
+            <td>
+              {u.role === 'hospital' && !u.isVerified && (
                 <button 
-                  onClick={() => handleVerify(user._id)}
-                  className="btn btn-primary px-4 py-2 text-xs"
+                  onClick={() => handleVerify(u._id)}
+                  className="btn btn-primary px-3 py-1.5 text-[10px]"
                 >
-                  <Check size={16} /> Verify
+                  <Check size={12} /> Verify Now
                 </button>
               )}
-              {user.isVerified ? (
-                <div className="flex items-center gap-1.5 text-success font-bold text-sm bg-success/10 px-3 py-1.5 rounded-lg">
-                  <ShieldCheck size={16} /> Verified
-                </div>
-              ) : (
-                <div className="text-[10px] bg-warning/10 text-warning px-3 py-1.5 rounded-lg font-black uppercase tracking-widest">Pending</div>
-              )}
-            </div>
-          </div>
-        ))}
-        {filteredUsers.length === 0 && (
-          <div className="text-center py-20 text-text-muted">
-            <Search size={48} className="mx-auto mb-4 opacity-20" />
-            <p>No results found matching your search.</p>
-          </div>
+            </td>
+          </>
         )}
-      </div>
+      />
     </motion.section>
   );
 
@@ -160,37 +156,22 @@ const AdminDashboard = () => {
           <Filter size={16} /> Filter by Status
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {requests.map(req => (
-          <div key={req._id} className="rounded-2xl bg-white/5 p-6 border border-glass-border hover:bg-white/10 transition-all">
-            <div className="flex items-center justify-between mb-6">
-              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex flex-col items-center justify-center font-black text-primary border border-primary/20">
-                <span className="text-lg leading-none">{req.bloodGroup}</span>
-                <Droplet size={14} className="mt-1 fill-primary" />
-              </div>
-              <span className={`badge ${req.urgency === 'high' ? 'badge-urgent' : 'badge-pending'}`}>
-                {req.urgency} Urgency
-              </span>
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between items-end">
-                <div>
-                  <div className="text-2xl font-bold">{req.units} Units</div>
-                  <div className="text-sm text-text-muted font-medium">{req.hospitalId?.name}</div>
-                </div>
-                <div className={`text-xs font-bold uppercase tracking-tighter px-3 py-1 rounded-md ${req.status === 'pending' ? 'bg-warning/20 text-warning' : 'bg-success/20 text-success'}`}>
-                  {req.status}
-                </div>
-              </div>
-              <div className="text-[10px] text-text-muted pt-4 border-t border-glass-border flex justify-between">
-                <span>REQUEST ID: {req._id.slice(-8).toUpperCase()}</span>
-                <span>{new Date(req.createdAt).toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-        {requests.length === 0 && <p className="col-span-full text-center py-20 text-text-muted">No requests found in the system.</p>}
-      </div>
+      <DataTable 
+        headers={['ID', 'Blood Group', 'Units', 'Hospital', 'Urgency', 'Status', 'Date']}
+        data={requests}
+        emptyMessage="No requests found in the system."
+        renderRow={(req) => (
+          <>
+            <td className="font-mono text-[10px] text-text-muted uppercase">{req._id.slice(-8)}</td>
+            <td className="font-black text-primary">{req.bloodGroup}</td>
+            <td className="font-bold">{req.units}</td>
+            <td className="text-sm">{req.hospitalId?.name}</td>
+            <td><span className={`badge ${req.urgency === 'high' ? 'badge-urgent' : 'badge-pending'}`}>{req.urgency}</span></td>
+            <td><span className={`badge badge-${req.status}`}>{req.status}</span></td>
+            <td className="text-[10px] text-text-muted">{new Date(req.createdAt).toLocaleDateString()}</td>
+          </>
+        )}
+      />
     </motion.section>
   );
 

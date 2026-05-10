@@ -17,6 +17,10 @@
   --font-sans: 'Outfit', sans-serif;
 }
 
+@utility glass-card {
+  @apply bg-bg-card backdrop-blur-xl border border-glass-border rounded-2xl shadow-glass;
+}
+
 @layer base {
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
@@ -27,9 +31,6 @@
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-bg-card backdrop-blur-xl border border-glass-border rounded-2xl shadow-glass;
-  }
 
   .btn {
     @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 inline-flex items-center gap-2;
@@ -62,6 +63,35 @@
   .badge-pending { @apply bg-warning/20 text-warning; }
   .badge-matched { @apply bg-success/20 text-success; }
   .badge-urgent { @apply bg-danger/20 text-danger; }
+
+  /* Data Table Styles */
+  .data-table-container {
+    @apply glass-card overflow-hidden border border-glass-border;
+  }
+
+  .data-table-wrapper {
+    @apply overflow-x-auto;
+  }
+
+  .data-table {
+    @apply w-full border-collapse;
+  }
+
+  .data-table thead tr {
+    @apply text-left text-sm text-text-muted bg-white/5;
+  }
+
+  .data-table th {
+    @apply p-4 font-medium whitespace-nowrap;
+  }
+
+  .data-table td {
+    @apply p-4 border-t border-glass-border;
+  }
+
+  .data-table tbody tr {
+    @apply hover:bg-white/5 transition-colors;
+  }
 }
 
 @keyframes fadeIn {
