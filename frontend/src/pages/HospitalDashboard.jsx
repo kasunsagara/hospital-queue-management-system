@@ -77,8 +77,36 @@ const HospitalDashboard = () => {
     }
   };
 
+  const renderStats = () => (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2 mb-12"
+    >
+      <div className="glass-card p-8 border-l-4 border-indigo-500">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="p-3 bg-indigo-500/10 rounded-xl text-indigo-500">
+            <Users size={24} />
+          </div>
+          <span className="text-3xl font-bold">{patients.length}</span>
+        </div>
+        <p className="text-sm font-medium text-text-muted">Registered Patients</p>
+      </div>
+      <div className="glass-card p-8 border-l-4 border-primary">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="p-3 bg-primary/10 rounded-xl text-primary">
+            <ClipboardList size={24} />
+          </div>
+          <span className="text-3xl font-bold">{requests.length}</span>
+        </div>
+        <p className="text-sm font-medium text-text-muted">Blood Requests</p>
+      </div>
+    </motion.div>
+  );
+
   const renderDashboard = () => (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <>
+      {renderStats()}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <section className="glass-card p-8 lg:col-span-1">
         <div className="mb-8 flex items-center gap-4">
           <div className="rounded-xl bg-indigo-500/10 p-3 text-indigo-500">
@@ -124,6 +152,7 @@ const HospitalDashboard = () => {
         </div>
       </section>
     </div>
+  </>
   );
 
   return (
@@ -134,12 +163,16 @@ const HospitalDashboard = () => {
           <p className="text-text-muted mt-2">Manage patients and blood requests</p>
         </div>
         <div className="flex gap-4">
-          <button onClick={() => setShowPatientModal(true)} className="btn btn-outline border-indigo-500 text-indigo-500 hover:bg-indigo-500 hover:text-white">
-            <UserPlus size={20} /> Add Patient
-          </button>
-          <button onClick={() => setShowModal(true)} className="btn btn-primary">
-            <Plus size={20} /> New Blood Request
-          </button>
+          {activeView === 'patients' && (
+            <button onClick={() => setShowPatientModal(true)} className="btn bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(37,99,235,0.4)]">
+              <UserPlus size={20} /> Add Patient
+            </button>
+          )}
+          {activeView === 'requests' && (
+            <button onClick={() => setShowModal(true)} className="btn btn-primary">
+              <Plus size={20} /> New Blood Request
+            </button>
+          )}
         </div>
       </header>
 
