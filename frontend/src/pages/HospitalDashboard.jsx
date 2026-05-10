@@ -4,6 +4,7 @@ import { FaPlus, FaUsers, FaClipboardList, FaUserPlus } from 'react-icons/fa';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
 import DataTable from '../components/DataTable';
+import toast from 'react-hot-toast';
 
 const HospitalDashboard = () => {
   const [requests, setRequests] = useState([]);
@@ -57,11 +58,12 @@ const HospitalDashboard = () => {
 
     try {
       await api.post('/request/create', payload);
+      toast.success('Blood request created successfully!');
       setShowModal(false);
       setFormData({ patientId: '', bloodGroup: '', units: 1, urgency: 'normal' });
       fetchData();
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to create request");
+      toast.error(err.response?.data?.message || "Failed to create request");
     }
   };
 
@@ -69,11 +71,12 @@ const HospitalDashboard = () => {
     e.preventDefault();
     try {
       await api.post('/patients', patientFormData);
+      toast.success('Patient registered successfully!');
       setShowPatientModal(false);
       setPatientFormData({ name: '', age: '', gender: 'male', bloodGroup: '' });
       fetchData();
     } catch (err) {
-      alert("Failed to add patient");
+      toast.error("Failed to add patient");
     }
   };
 

@@ -3,31 +3,31 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaLock, FaSpinner, FaExclamationCircle } from 'react-icons/fa';
 import api from '../api/axios';
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
 
     try {
       const response = await api.post('/auth/login', { email, password });
       localStorage.setItem('token', response.data.access_token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
+      toast.success('Login Successful!');
       const role = response.data.user.role;
       if (role === 'donor') navigate('/donor-dashboard');
       else if (role === 'hospital') navigate('/hospital-dashboard');
       else if (role === 'admin') navigate('/admin-dashboard');
       else navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
+      toast.error(err.response?.data?.message || 'Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -45,12 +45,6 @@ const Login = () => {
           <p className="text-text-muted">Login to manage your blood donations</p>
         </div>
 
-        {error && (
-          <div className="mb-6 flex items-center gap-3 rounded-lg border border-danger bg-danger/10 p-4 text-danger">
-            <FaExclamationCircle size={20} />
-            <span className="text-sm">{error}</span>
-          </div>
-        )}
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">

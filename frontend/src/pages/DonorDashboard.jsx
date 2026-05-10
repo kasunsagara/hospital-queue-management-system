@@ -4,6 +4,7 @@ import { FaTint, FaMapMarkerAlt, FaCalendarAlt, FaCheckCircle, FaExclamationCirc
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
 import DataTable from '../components/DataTable';
+import toast from 'react-hot-toast';
 
 const DonorDashboard = () => {
   const [requests, setRequests] = useState([]);
@@ -38,9 +39,10 @@ const DonorDashboard = () => {
   const handleAccept = async (id) => {
     try {
       await api.patch(`/request/accept/${id}`);
+      toast.success('Donation request accepted!');
       fetchData(); // Refresh
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to accept request");
+      toast.error(err.response?.data?.message || "Failed to accept request");
     }
   };
 

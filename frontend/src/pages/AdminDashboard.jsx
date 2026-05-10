@@ -5,6 +5,7 @@ import { MdTimeline } from 'react-icons/md';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
 import DataTable from '../components/DataTable';
+import toast from 'react-hot-toast';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -41,9 +42,10 @@ const AdminDashboard = () => {
   const handleVerify = async (userId) => {
     try {
       await api.patch(`/users/verify/${userId}`);
+      toast.success('Hospital verified successfully!');
       fetchData();
     } catch (err) {
-      alert("Verification failed");
+      toast.error("Verification failed");
     }
   };
 
@@ -51,9 +53,10 @@ const AdminDashboard = () => {
     if (window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
       try {
         await api.delete(`/users/${userId}`);
+        toast.success('User deleted successfully!');
         fetchData();
       } catch (err) {
-        alert(err.response?.data?.message || "Failed to delete user");
+        toast.error(err.response?.data?.message || "Failed to delete user");
       }
     }
   };

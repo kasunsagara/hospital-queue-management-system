@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaUser, FaEnvelope, FaLock, FaPhone, FaMapMarkerAlt, FaSpinner, FaTint } from 'react-icons/fa';
 import api from '../api/axios';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +17,6 @@ const Register = () => {
     longitude: null
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
 
     const { latitude, longitude, ...rest } = formData;
     const payload = {
@@ -50,9 +49,10 @@ const Register = () => {
 
     try {
       await api.post('/auth/register', payload);
+      toast.success('Account created successfully!');
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Try again.');
+      toast.error(err.response?.data?.message || 'Registration failed. Try again.');
     } finally {
       setLoading(false);
     }

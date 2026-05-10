@@ -8,11 +8,13 @@ import DonorDashboard from './pages/DonorDashboard';
 import HospitalDashboard from './pages/HospitalDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Footer from './components/Footer';
+import { Toaster } from 'react-hot-toast';
 import './index.css';
 
 function App() {
   return (
     <Router>
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="app-container">
         <Navbar />
         <main>
