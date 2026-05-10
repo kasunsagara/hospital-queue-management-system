@@ -9,7 +9,7 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
-    role: 'donor',
+    role: '',
     bloodGroup: '',
     contactNumber: '',
     latitude: null,
@@ -141,7 +141,9 @@ const Register = () => {
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                required
               >
+                <option value="">Select Role</option>
                 <option value="donor">Donor</option>
                 <option value="hospital">Hospital</option>
               </select>
