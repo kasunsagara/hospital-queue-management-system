@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Droplet, User, LogOut, LayoutDashboard, Home } from 'lucide-react';
+import { FaTint, FaUser, FaSignOutAlt, FaHome } from 'react-icons/fa';
+import { MdDashboard } from 'react-icons/md';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -22,13 +23,13 @@ const Navbar = () => {
   return (
     <nav className="glass-card sticky top-0 z-50 m-0 flex items-center justify-between rounded-none border-x-0 border-t-0 px-8 py-4">
       <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-        <Droplet className="text-primary fill-primary" size={24} />
+        <FaTint className="text-primary" size={24} />
         <span>BloodSync</span>
       </Link>
 
       <div className="flex items-center gap-6">
         <Link to="/" className="text-text-muted transition-colors hover:text-text-main">
-          <Home size={20} />
+          <FaHome size={20} />
         </Link>
         
         {token ? (
@@ -50,7 +51,7 @@ const Navbar = () => {
                 onClick={handleLogout} 
                 className="btn-outline rounded-full p-2"
               >
-                <LogOut size={18} />
+                <FaSignOutAlt size={18} />
               </button>
             </div>
           </>

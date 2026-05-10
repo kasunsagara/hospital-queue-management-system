@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Droplet, MapPin, Calendar, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { FaTint, FaMapMarkerAlt, FaCalendarAlt, FaCheckCircle, FaExclamationCircle, FaClock } from 'react-icons/fa';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
 import DataTable from '../components/DataTable';
@@ -48,7 +48,7 @@ const DonorDashboard = () => {
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <section className="lg:col-span-2">
         <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold">
-          <AlertCircle className="text-primary" /> Urgent Requests Nearby
+          <FaExclamationCircle className="text-primary" /> Urgent Requests Nearby
         </h2>
         
         {loading ? (
@@ -64,15 +64,15 @@ const DonorDashboard = () => {
               >
                 <div className="flex items-center gap-6">
                   <div className="min-w-[70px] rounded-xl bg-primary/10 p-4 text-center">
-                    <Droplet className="mb-1 text-primary fill-primary" />
+                    <FaTint className="mb-1 text-primary" />
                     <div className="text-lg font-bold">{req.bloodGroup}</div>
                   </div>
                   <div>
                     <h4 className="mb-1 text-lg font-bold">{req.units} Units Required</h4>
                     <div className="flex gap-4 text-sm text-text-muted">
-                      <span className="flex items-center gap-1"><MapPin size={14} /> Hospital Location</span>
+                      <span className="flex items-center gap-1"><FaMapMarkerAlt size={14} /> Hospital Location</span>
                       <span className="flex items-center gap-1">
-                        <Clock size={14} /> {req.urgency === 'high' ? 'Urgent' : 'Normal'}
+                        <FaClock size={14} /> {req.urgency === 'high' ? 'Urgent' : 'Normal'}
                       </span>
                     </div>
                   </div>
@@ -85,7 +85,7 @@ const DonorDashboard = () => {
           </div>
         ) : (
           <div className="glass-card py-12 text-center text-text-muted">
-            <CheckCircle2 size={48} className="mx-auto mb-4 opacity-50" />
+            <FaCheckCircle size={48} className="mx-auto mb-4 opacity-50" />
             <p>No urgent requests for your blood group right now.</p>
           </div>
         )}
@@ -93,7 +93,7 @@ const DonorDashboard = () => {
 
       <section>
         <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold">
-          <Calendar className="text-primary" /> Recent Activity
+          <FaCalendarAlt className="text-primary" /> Recent Activity
         </h2>
         <div className="glass-card p-6">
           {myResponses.length > 0 ? (
@@ -144,7 +144,7 @@ const DonorDashboard = () => {
                   <td>
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Droplet size={14} className="text-primary fill-primary" />
+                        <FaTint size={14} className="text-primary" />
                       </div>
                       <span className="font-bold">{req.bloodGroup}</span>
                     </div>

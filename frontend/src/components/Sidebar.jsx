@@ -1,16 +1,6 @@
 import { NavLink, Link } from 'react-router-dom';
-import {
-  LayoutDashboard,
-  Users,
-  Hospital,
-  ClipboardList,
-  Droplet,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  Activity,
-  Heart
-} from 'lucide-react';
+import { FaUsers, FaHospital, FaClipboardList, FaTint, FaSignOutAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { MdDashboard, MdTimeline } from 'react-icons/md';
 import { useState } from 'react';
 
 const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
@@ -24,22 +14,22 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
     switch (role) {
       case 'admin':
         return [
-          { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: 'dashboard' },
-          { name: 'Manage Donors', icon: <Users size={20} />, path: 'donors' },
-          { name: 'Manage Hospitals', icon: <Hospital size={20} />, path: 'hospitals' },
-          { name: 'System Requests', icon: <ClipboardList size={20} />, path: 'requests' },
+          { name: 'Dashboard', icon: <MdDashboard size={20} />, path: 'dashboard' },
+          { name: 'Manage Donors', icon: <FaUsers size={20} />, path: 'donors' },
+          { name: 'Manage Hospitals', icon: <FaHospital size={20} />, path: 'hospitals' },
+          { name: 'System Requests', icon: <FaClipboardList size={20} />, path: 'requests' },
         ];
       case 'donor':
         return [
-          { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: 'dashboard' },
-          { name: 'Find Requests', icon: <Droplet size={20} />, path: 'requests' },
-          { name: 'My Activities', icon: <Activity size={20} />, path: 'activities' },
+          { name: 'Dashboard', icon: <MdDashboard size={20} />, path: 'dashboard' },
+          { name: 'Find Requests', icon: <FaTint size={20} />, path: 'requests' },
+          { name: 'My Activities', icon: <MdTimeline size={20} />, path: 'activities' },
         ];
       case 'hospital':
         return [
-          { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: 'dashboard' },
-          { name: 'Manage Patients', icon: <Users size={20} />, path: 'patients' },
-          { name: 'Active Requests', icon: <ClipboardList size={20} />, path: 'requests' },
+          { name: 'Dashboard', icon: <MdDashboard size={20} />, path: 'dashboard' },
+          { name: 'Manage Patients', icon: <FaUsers size={20} />, path: 'patients' },
+          { name: 'Active Requests', icon: <FaClipboardList size={20} />, path: 'requests' },
         ];
       default:
         return [];
@@ -55,7 +45,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
       <div className="flex h-full flex-col p-4">
         {/* Logo Section */}
         <Link to="/" className="mb-10 flex items-center gap-2 px-2 text-xl font-bold">
-          <Droplet className="text-primary fill-primary" size={24} />
+          <FaTint className="text-primary" size={24} />
           {!isCollapsed && (
             <span>BloodSync</span>
           )}
@@ -99,7 +89,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
             onClick={handleLogout}
             className="flex w-full items-center gap-4 rounded-xl px-4 py-3.5 text-danger transition-all hover:bg-danger/10 group"
           >
-            <LogOut size={20} className="group-hover:rotate-12 transition-transform" />
+            <FaSignOutAlt size={20} className="group-hover:rotate-12 transition-transform" />
             {!isCollapsed && <span className="font-semibold">Logout</span>}
           </button>
         </div>
@@ -109,7 +99,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="absolute -right-3 top-20 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-110"
         >
-          {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          {isCollapsed ? <FaChevronRight size={14} /> : <FaChevronLeft size={14} />}
         </button>
       </div>
     </aside>

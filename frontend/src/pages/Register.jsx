@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, Mail, Lock, Phone, MapPin, Loader2, Droplet } from 'lucide-react';
+import { FaUser, FaEnvelope, FaLock, FaPhone, FaMapMarkerAlt, FaSpinner, FaTint } from 'react-icons/fa';
 import api from '../api/axios';
 
 const Register = () => {
@@ -75,7 +75,7 @@ const Register = () => {
             <div className="input-group">
               <label>Full Name</label>
               <div className="relative">
-                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                <FaUser size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="text"
                   placeholder="John Doe"
@@ -90,7 +90,7 @@ const Register = () => {
             <div className="input-group">
               <label>Email</label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                <FaEnvelope size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="email"
                   placeholder="john@example.com"
@@ -107,7 +107,7 @@ const Register = () => {
             <div className="input-group">
               <label>Password</label>
               <div className="relative">
-                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                <FaLock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="password"
                   placeholder="••••••••"
@@ -122,7 +122,7 @@ const Register = () => {
             <div className="input-group">
               <label>Contact Number</label>
               <div className="relative">
-                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                <FaPhone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="text"
                   placeholder="0771234567"
@@ -168,7 +168,7 @@ const Register = () => {
 
           <div className={`input-group transition-opacity duration-300 ${formData.latitude ? 'opacity-100' : 'opacity-50'}`}>
             <label className="flex items-center gap-2">
-              <MapPin size={14} /> Location Status
+              <FaMapMarkerAlt size={14} /> Location Status
             </label>
             <div className="rounded-lg bg-white/5 p-3 text-sm">
               {formData.latitude ? `Location Captured (${formData.latitude.toFixed(4)}, ${formData.longitude.toFixed(4)})` : 'Detecting Location...'}
@@ -180,7 +180,7 @@ const Register = () => {
             className="btn btn-primary mt-4 w-full justify-center py-4"
             disabled={loading}
           >
-            {loading ? <Loader2 className="animate-spin" /> : 'Register'}
+            {loading ? <FaSpinner className="animate-spin" /> : 'Register'}
           </button>
         </form>
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
+import { FaEnvelope, FaLock, FaSpinner, FaExclamationCircle } from 'react-icons/fa';
 import api from '../api/axios';
 
 const Login = () => {
@@ -47,7 +47,7 @@ const Login = () => {
 
         {error && (
           <div className="mb-6 flex items-center gap-3 rounded-lg border border-danger bg-danger/10 p-4 text-danger">
-            <AlertCircle size={20} />
+            <FaExclamationCircle size={20} />
             <span className="text-sm">{error}</span>
           </div>
         )}
@@ -56,7 +56,7 @@ const Login = () => {
           <div className="input-group">
             <label>Email Address</label>
             <div className="relative">
-              <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+              <FaEnvelope size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
               <input 
                 type="email" 
                 placeholder="name@example.com" 
@@ -71,7 +71,7 @@ const Login = () => {
           <div className="input-group">
             <label>Password</label>
             <div className="relative">
-              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+              <FaLock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
               <input 
                 type="password" 
                 placeholder="••••••••" 
@@ -88,7 +88,7 @@ const Login = () => {
             className="btn btn-primary w-full justify-center py-4"
             disabled={loading}
           >
-            {loading ? <Loader2 className="animate-spin" /> : 'Login'}
+            {loading ? <FaSpinner className="animate-spin" /> : 'Login'}
           </button>
         </form>
 

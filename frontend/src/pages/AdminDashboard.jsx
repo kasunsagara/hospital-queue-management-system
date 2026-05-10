@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Droplet, ShieldCheck, ClipboardList, Check, Search, Filter, Activity, Trash2 } from 'lucide-react';
+import { FaUsers, FaTint, FaShieldAlt, FaClipboardList, FaCheck, FaSearch, FaFilter, FaTrashAlt } from 'react-icons/fa';
+import { MdTimeline } from 'react-icons/md';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
 import DataTable from '../components/DataTable';
@@ -71,7 +72,7 @@ const AdminDashboard = () => {
       <div className="glass-card p-8 border-l-4 border-primary">
         <div className="mb-4 flex items-center justify-between">
           <div className="p-3 bg-primary/10 rounded-xl text-primary">
-            <Users size={24} />
+            <FaUsers size={24} />
           </div>
           <span className="text-3xl font-bold">{users.length}</span>
         </div>
@@ -80,7 +81,7 @@ const AdminDashboard = () => {
       <div className="glass-card p-8 border-l-4 border-indigo-500">
         <div className="mb-4 flex items-center justify-between">
           <div className="p-3 bg-indigo-500/10 rounded-xl text-indigo-500">
-            <Droplet size={24} />
+            <FaTint size={24} />
           </div>
           <span className="text-3xl font-bold">{requests.length}</span>
         </div>
@@ -89,7 +90,7 @@ const AdminDashboard = () => {
       <div className="glass-card p-8 border-l-4 border-success">
         <div className="mb-4 flex items-center justify-between">
           <div className="p-3 bg-success/10 rounded-xl text-success">
-            <ShieldCheck size={24} />
+            <FaShieldAlt size={24} />
           </div>
           <span className="text-3xl font-bold">{users.filter(u => u.isVerified).length}</span>
         </div>
@@ -106,7 +107,7 @@ const AdminDashboard = () => {
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <h2 className="text-2xl font-bold">{title}</h2>
         <div className="relative w-full max-w-xs">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+          <FaSearch size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
           <input
             type="text"
             placeholder="Search..."
@@ -135,7 +136,7 @@ const AdminDashboard = () => {
             <td><span className="badge bg-white/5 text-text-muted">{u.role}</span></td>
             <td>
               {u.isVerified ? (
-                <span className="badge badge-matched flex items-center gap-1 w-fit"><ShieldCheck size={10} /> Verified</span>
+                <span className="badge badge-matched flex items-center gap-1 w-fit"><FaShieldAlt size={10} /> Verified</span>
               ) : (
                 <span className="badge badge-pending">Pending</span>
               )}
@@ -147,14 +148,14 @@ const AdminDashboard = () => {
                     onClick={() => handleVerify(u._id)}
                     className="btn bg-success text-white hover:bg-success/80 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(16,185,129,0.4)] px-3 py-1.5 text-[10px] gap-1"
                   >
-                    <ShieldCheck size={12} /> Verify Now
+                    <FaShieldAlt size={12} /> Verify Now
                   </button>
                 )}
                 <button
                   onClick={() => handleDeleteUser(u._id)}
                   className="btn bg-danger text-white hover:bg-danger/80 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(239,68,68,0.4)] px-3 py-1.5 text-[10px] gap-1"
                 >
-                  <Trash2 size={12} /> Delete Now
+                  <FaTrashAlt size={12} /> Delete Now
                 </button>
               </div>
             </td>
@@ -215,7 +216,7 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div className="p-8">
                     <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                      <Activity size={20} className="text-primary" /> Recent System Requests
+                      <MdTimeline size={20} className="text-primary" /> Recent System Requests
                     </h3>
                     {requests.slice(0, 5).map(req => (
                       <div key={req._id} className="flex items-center justify-between py-3 border-b border-glass-border last:border-0">
@@ -231,7 +232,7 @@ const AdminDashboard = () => {
                   </div>
                   <div className="p-8">
                     <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                      <Users size={20} className="text-indigo-500" /> New Registrations
+                      <FaUsers size={20} className="text-indigo-500" /> New Registrations
                     </h3>
                     {users.slice(-5).reverse().map(u => (
                       <div key={u._id} className="flex items-center justify-between py-3 border-b border-glass-border last:border-0">

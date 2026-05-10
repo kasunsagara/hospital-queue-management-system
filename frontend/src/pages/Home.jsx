@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Droplet, Heart, Shield, Zap } from 'lucide-react';
+import { FaTint, FaHeart, FaShieldAlt, FaBolt } from 'react-icons/fa';
 
 const Home = () => {
   return (
@@ -30,9 +30,9 @@ const Home = () => {
 
       <section className="mb-24 grid grid-cols-1 gap-8 md:grid-cols-3">
         {[
-          { icon: <Zap size={32} />, title: "Real-time Alerts", desc: "Instant notifications for urgent blood requests in your vicinity." },
-          { icon: <Shield size={32} />, title: "Verified Network", desc: "Every hospital and donor is verified for a safe and secure experience." },
-          { icon: <Heart size={32} />, title: "Track Impact", desc: "See how your donations are helping people and saving lives." }
+          { icon: <FaBolt size={32} />, title: "Real-time Alerts", desc: "Instant notifications for urgent blood requests in your vicinity." },
+          { icon: <FaShieldAlt size={32} />, title: "Verified Network", desc: "Every hospital and donor is verified for a safe and secure experience." },
+          { icon: <FaHeart size={32} />, title: "Track Impact", desc: "See how your donations are helping people and saving lives." }
         ].map((feature, i) => (
           <motion.div 
             key={i}
@@ -68,9 +68,9 @@ const Home = () => {
         </div>
         <div className="relative flex justify-center">
           <div className="h-[300px] w-full rounded-[20px] bg-gradient-to-br from-primary to-indigo-600 opacity-20"></div>
-          <Droplet 
+          <FaTint 
             size={120} 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary fill-primary drop-shadow-[0_0_20px_rgba(255,77,77,0.5)]"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary drop-shadow-[0_0_20px_rgba(255,77,77,0.5)]"
           />
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Users, ClipboardList, UserPlus } from 'lucide-react';
+import { FaPlus, FaUsers, FaClipboardList, FaUserPlus } from 'react-icons/fa';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
 import DataTable from '../components/DataTable';
@@ -85,7 +85,7 @@ const HospitalDashboard = () => {
       <div className="glass-card p-8 border-l-4 border-indigo-500">
         <div className="mb-4 flex items-center justify-between">
           <div className="p-3 bg-indigo-500/10 rounded-xl text-indigo-500">
-            <Users size={24} />
+            <FaUsers size={24} />
           </div>
           <span className="text-3xl font-bold">{patients.length}</span>
         </div>
@@ -94,7 +94,7 @@ const HospitalDashboard = () => {
       <div className="glass-card p-8 border-l-4 border-primary">
         <div className="mb-4 flex items-center justify-between">
           <div className="p-3 bg-primary/10 rounded-xl text-primary">
-            <ClipboardList size={24} />
+            <FaClipboardList size={24} />
           </div>
           <span className="text-3xl font-bold">{requests.length}</span>
         </div>
@@ -110,7 +110,7 @@ const HospitalDashboard = () => {
       <section className="glass-card p-8 lg:col-span-1">
         <div className="mb-8 flex items-center gap-4">
           <div className="rounded-xl bg-indigo-500/10 p-3 text-indigo-500">
-            <Users size={20} />
+            <FaUsers size={20} />
           </div>
           <h2 className="text-xl font-bold">Quick Patient List</h2>
         </div>
@@ -131,7 +131,7 @@ const HospitalDashboard = () => {
       <section className="glass-card p-8 lg:col-span-2">
         <div className="mb-8 flex items-center gap-4">
           <div className="rounded-xl bg-success/10 p-3 text-success">
-            <ClipboardList size={20} />
+            <FaClipboardList size={20} />
           </div>
           <h2 className="text-xl font-bold">Recent Requests</h2>
         </div>
@@ -165,12 +165,12 @@ const HospitalDashboard = () => {
         <div className="flex gap-4">
           {activeView === 'patients' && (
             <button onClick={() => setShowPatientModal(true)} className="btn bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(37,99,235,0.4)]">
-              <UserPlus size={20} /> Add Patient
+              <FaUserPlus size={20} /> Add Patient
             </button>
           )}
           {activeView === 'requests' && (
             <button onClick={() => setShowModal(true)} className="btn btn-primary">
-              <Plus size={20} /> New Blood Request
+              <FaPlus size={20} /> New Blood Request
             </button>
           )}
         </div>
