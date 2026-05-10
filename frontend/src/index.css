@@ -56,6 +56,10 @@
     @apply w-full px-4 py-3 bg-white/5 border border-glass-border rounded-lg text-text-main font-sans transition-all duration-300 focus:border-primary focus:bg-white/10 outline-none;
   }
 
+  .input-group select option, select option {
+    @apply bg-bg-dark text-text-main;
+  }
+
   .badge {
     @apply px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider;
   }

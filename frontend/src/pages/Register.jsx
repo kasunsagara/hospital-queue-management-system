@@ -60,7 +60,7 @@ const Register = () => {
 
   return (
     <div className="container flex items-center justify-center py-16">
-      <motion.div 
+      <motion.div
         className="glass-card w-full max-w-[600px] p-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -76,13 +76,13 @@ const Register = () => {
               <label>Full Name</label>
               <div className="relative">
                 <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                <input 
-                  type="text" 
-                  placeholder="John Doe" 
+                <input
+                  type="text"
+                  placeholder="John Doe"
                   className="pl-12"
                   value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  required 
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
                 />
               </div>
             </div>
@@ -91,13 +91,13 @@ const Register = () => {
               <label>Email</label>
               <div className="relative">
                 <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                <input 
-                  type="email" 
-                  placeholder="john@example.com" 
+                <input
+                  type="email"
+                  placeholder="john@example.com"
                   className="pl-12"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  required 
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
                 />
               </div>
             </div>
@@ -108,13 +108,13 @@ const Register = () => {
               <label>Password</label>
               <div className="relative">
                 <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                <input 
-                  type="password" 
-                  placeholder="••••••••" 
+                <input
+                  type="password"
+                  placeholder="••••••••"
                   className="pl-12"
                   value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  required 
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
                 />
               </div>
             </div>
@@ -123,13 +123,13 @@ const Register = () => {
               <label>Contact Number</label>
               <div className="relative">
                 <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                <input 
-                  type="text" 
-                  placeholder="+1 234 567 890" 
+                <input
+                  type="text"
+                  placeholder="+1 234 567 890"
                   className="pl-12"
                   value={formData.contactNumber}
-                  onChange={(e) => setFormData({...formData, contactNumber: e.target.value})}
-                  required 
+                  onChange={(e) => setFormData({ ...formData, contactNumber: e.target.value })}
+                  required
                 />
               </div>
             </div>
@@ -138,9 +138,9 @@ const Register = () => {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="input-group">
               <label>Join as</label>
-              <select 
+              <select
                 value={formData.role}
-                onChange={(e) => setFormData({...formData, role: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
                 <option value="donor">Donor</option>
                 <option value="hospital">Hospital</option>
@@ -150,9 +150,9 @@ const Register = () => {
             {formData.role === 'donor' && (
               <div className="input-group">
                 <label>Blood Group</label>
-                <select 
+                <select
                   value={formData.bloodGroup}
-                  onChange={(e) => setFormData({...formData, bloodGroup: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, bloodGroup: e.target.value })}
                   required
                 >
                   <option value="">Select Group</option>
@@ -173,8 +173,8 @@ const Register = () => {
             </div>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="btn btn-primary mt-4 w-full justify-center py-4"
             disabled={loading}
           >
