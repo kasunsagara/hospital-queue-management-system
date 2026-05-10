@@ -18,13 +18,13 @@ const DashboardLayout = ({ children, user }) => {
 
   return (
     <div className="min-h-screen bg-bg-dark">
-      <Sidebar 
-        user={user} 
-        isCollapsed={isCollapsed} 
-        setIsCollapsed={setIsCollapsed} 
+      <Sidebar
+        user={user}
+        isCollapsed={isCollapsed}
+        setIsCollapsed={setIsCollapsed}
       />
-      
-      <main 
+
+      <main
         className={`transition-all duration-300 ${isCollapsed ? 'pl-20' : 'pl-72'}`}
       >
         <div className="container min-h-screen py-8 px-4 md:px-8">

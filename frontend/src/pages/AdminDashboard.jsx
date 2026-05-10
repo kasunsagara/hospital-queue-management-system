@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Droplet, ShieldCheck, ClipboardList, Check, Search, Filter, Activity } from 'lucide-react';
+import { Users, Droplet, ShieldCheck, ClipboardList, Check, Search, Filter, Activity, Trash2 } from 'lucide-react';
 import api from '../api/axios';
 import DashboardLayout from '../components/DashboardLayout';
 import DataTable from '../components/DataTable';
@@ -15,7 +15,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchData();
-    
+
     // Listen for view changes from Sidebar
     const handleViewChange = (e) => setActiveView(e.detail);
     window.addEventListener('change-view', handleViewChange);
@@ -46,14 +46,25 @@ const AdminDashboard = () => {
     }
   };
 
-  const filteredUsers = users.filter(u => 
-    (u.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-     u.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  const handleDeleteUser = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
+      try {
+        await api.delete(`/users/${userId}`);
+        fetchData();
+      } catch (err) {
+        alert(err.response?.data?.message || "Failed to delete user");
+      }
+    }
+  };
+
+  const filteredUsers = users.filter(u =>
+    (u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
     (activeView === 'donors' ? u.role === 'donor' : activeView === 'hospitals' ? u.role === 'hospital' : true)
   );
 
   const renderStats = () => (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
       className="grid grid-cols-1 gap-6 sm:grid-cols-3 mb-12"
     >
@@ -88,17 +99,17 @@ const AdminDashboard = () => {
   );
 
   const renderManagementList = (title) => (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="glass-card p-8"
+      className="p-8"
     >
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <h2 className="text-2xl font-bold">{title}</h2>
         <div className="relative w-full max-w-xs">
           <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
-          <input 
-            type="text" 
-            placeholder="Search..." 
+          <input
+            type="text"
+            placeholder="Search..."
             className="w-full bg-white/5 border border-glass-border rounded-xl pl-10 pr-4 py-2.5 text-sm outline-none focus:border-primary transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -106,7 +117,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <DataTable 
+      <DataTable
         headers={['Name', 'Email', 'Role', 'Status', 'Actions']}
         data={filteredUsers}
         emptyMessage="No users found matching your search."
@@ -130,14 +141,22 @@ const AdminDashboard = () => {
               )}
             </td>
             <td>
-              {u.role === 'hospital' && !u.isVerified && (
-                <button 
-                  onClick={() => handleVerify(u._id)}
-                  className="btn btn-primary px-3 py-1.5 text-[10px]"
+              <div className="flex items-center gap-2">
+                {u.role === 'hospital' && !u.isVerified && (
+                  <button
+                    onClick={() => handleVerify(u._id)}
+                    className="btn bg-success text-white hover:bg-success/80 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(16,185,129,0.4)] px-3 py-1.5 text-[10px] gap-1"
+                  >
+                    <ShieldCheck size={12} /> Verify Now
+                  </button>
+                )}
+                <button
+                  onClick={() => handleDeleteUser(u._id)}
+                  className="btn bg-danger text-white hover:bg-danger/80 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(239,68,68,0.4)] px-3 py-1.5 text-[10px] gap-1"
                 >
-                  <Check size={12} /> Verify Now
+                  <Trash2 size={12} /> Delete Now
                 </button>
-              )}
+              </div>
             </td>
           </>
         )}
@@ -146,17 +165,14 @@ const AdminDashboard = () => {
   );
 
   const renderRequests = () => (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="glass-card p-8"
+      className="p-8"
     >
       <div className="mb-8 flex items-center justify-between">
         <h2 className="text-2xl font-bold">System-wide Requests</h2>
-        <div className="flex items-center gap-2 text-sm text-text-muted bg-white/5 px-4 py-2 rounded-lg">
-          <Filter size={16} /> Filter by Status
-        </div>
       </div>
-      <DataTable 
+      <DataTable
         headers={['ID', 'Blood Group', 'Units', 'Hospital', 'Urgency', 'Status', 'Date']}
         data={requests}
         emptyMessage="No requests found in the system."
@@ -178,17 +194,11 @@ const AdminDashboard = () => {
   return (
     <DashboardLayout user={user}>
       <header className="mb-12">
-        <h1 className="text-5xl font-black tracking-tighter">
-          {activeView === 'dashboard' && "Admin Overview"}
-          {activeView === 'donors' && "Donor Directory"}
-          {activeView === 'hospitals' && "Hospital Network"}
-          {activeView === 'requests' && "Global Monitor"}
+        <h1 className="text-5xl font-black tracking-tighter uppercase">
+          Admin Panel
         </h1>
         <p className="text-text-muted mt-2 text-lg">
-          {activeView === 'dashboard' && "Real-time system statistics and health"}
-          {activeView === 'donors' && "Manage and monitor registered donors"}
-          {activeView === 'hospitals' && "Verify and manage hospital accounts"}
-          {activeView === 'requests' && "Track all active blood requests globally"}
+          Centralized management and system monitoring
         </p>
       </header>
 
@@ -203,7 +213,7 @@ const AdminDashboard = () => {
               <>
                 {renderStats()}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div className="glass-card p-8">
+                  <div className="p-8">
                     <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                       <Activity size={20} className="text-primary" /> Recent System Requests
                     </h3>
@@ -219,7 +229,7 @@ const AdminDashboard = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="glass-card p-8">
+                  <div className="p-8">
                     <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                       <Users size={20} className="text-indigo-500" /> New Registrations
                     </h3>

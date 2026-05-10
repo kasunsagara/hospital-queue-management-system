@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -54,14 +54,12 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
     >
       <div className="flex h-full flex-col p-4">
         {/* Logo Section */}
-        <div className="mb-10 flex items-center gap-4 px-2">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-[0_0_20px_rgba(255,77,77,0.3)]">
-            <Heart size={24} fill="white" />
-          </div>
+        <Link to="/" className="mb-10 flex items-center gap-2 px-2 text-xl font-bold">
+          <Droplet className="text-primary fill-primary" size={24} />
           {!isCollapsed && (
-            <span className="text-xl font-bold tracking-tight text-white">BloodConnect</span>
+            <span>BloodSync</span>
           )}
-        </div>
+        </Link>
 
         {/* Navigation Links */}
         <nav className="flex-1 space-y-2">
