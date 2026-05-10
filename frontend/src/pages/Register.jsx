@@ -125,7 +125,7 @@ const Register = () => {
                 <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="text"
-                  placeholder="+1 234 567 890"
+                  placeholder="0771234567"
                   className="pl-12"
                   value={formData.contactNumber}
                   onChange={(e) => setFormData({ ...formData, contactNumber: e.target.value })}

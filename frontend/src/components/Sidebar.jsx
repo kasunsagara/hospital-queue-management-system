@@ -17,7 +17,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   const getLinks = (role) => {
