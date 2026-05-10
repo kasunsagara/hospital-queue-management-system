@@ -1,10 +1,10 @@
 import { NavLink, Link } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  Hospital, 
-  ClipboardList, 
-  Droplet, 
+import {
+  LayoutDashboard,
+  Users,
+  Hospital,
+  ClipboardList,
+  Droplet,
   LogOut,
   ChevronLeft,
   ChevronRight,
@@ -25,8 +25,8 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
       case 'admin':
         return [
           { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: 'dashboard' },
-          { name: 'Donor Management', icon: <Users size={20} />, path: 'donors' },
-          { name: 'Hospital Management', icon: <Hospital size={20} />, path: 'hospitals' },
+          { name: 'Manage Donors', icon: <Users size={20} />, path: 'donors' },
+          { name: 'Manage Hospitals', icon: <Hospital size={20} />, path: 'hospitals' },
           { name: 'System Requests', icon: <ClipboardList size={20} />, path: 'requests' },
         ];
       case 'donor':
@@ -49,7 +49,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
   const links = getLinks(user?.role);
 
   return (
-    <aside 
+    <aside
       className={`fixed left-0 top-0 z-50 h-screen bg-bg-card backdrop-blur-2xl border-r border-glass-border transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-72'}`}
     >
       <div className="flex h-full flex-col p-4">
@@ -94,8 +94,8 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
               </div>
             </div>
           )}
-          
-          <button 
+
+          <button
             onClick={handleLogout}
             className="flex w-full items-center gap-4 rounded-xl px-4 py-3.5 text-danger transition-all hover:bg-danger/10 group"
           >
@@ -105,7 +105,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
         </div>
 
         {/* Toggle Button */}
-        <button 
+        <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="absolute -right-3 top-20 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-110"
         >

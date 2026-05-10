@@ -194,7 +194,7 @@ const AdminDashboard = () => {
   return (
     <DashboardLayout user={user}>
       <header className="mb-12">
-        <h1 className="text-5xl font-black tracking-tighter uppercase">
+        <h1 className="text-5xl font-black tracking-tighter">
           Admin Panel
         </h1>
         <p className="text-text-muted mt-2 text-lg">
