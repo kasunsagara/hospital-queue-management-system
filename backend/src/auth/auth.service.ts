@@ -34,6 +34,7 @@ export class AuthService {
       bloodGroup: user.bloodGroup,
       location: user.location,
       availability: user.availability,
+      isVerified: user.isVerified,
     };
   }
 
@@ -54,6 +55,7 @@ export class AuthService {
       sub: user._id,
       email: user.email,
       role: user.role,
+      isVerified: user.isVerified,
     };
 
     return {
@@ -66,6 +68,7 @@ export class AuthService {
         bloodGroup: user.bloodGroup,
         location: user.location,
         availability: user.availability,
+        isVerified: user.isVerified,
       },
     };
   }

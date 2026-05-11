@@ -25,8 +25,8 @@ export class UsersService {
     return newUser.save();
   }
 
-  async verifyHospital(id: string): Promise<UserDocument | null> {
-    return this.userModel.findByIdAndUpdate(id, { isVerified: true }, { new: true }).exec();
+  async verifyHospital(id: string, status: boolean = true): Promise<UserDocument | null> {
+    return this.userModel.findByIdAndUpdate(id, { isVerified: status }, { new: true }).exec();
   }
 
   async updateAvailability(id: string, availability: boolean): Promise<UserDocument | null> {

@@ -22,8 +22,9 @@ export class UsersController {
 
   @Patch('verify/:id')
   @Roles('admin')
-  verifyHospital(@Param('id') id: string) {
-    return this.usersService.verifyHospital(id);
+  verifyHospital(@Param('id') id: string, @Body('status') status: boolean) {
+    const newStatus = status !== undefined ? status : true;
+    return this.usersService.verifyHospital(id, newStatus);
   }
 
   @Get('all')

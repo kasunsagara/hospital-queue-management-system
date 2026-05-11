@@ -13,7 +13,7 @@ const HospitalDashboard = () => {
   const [showPatientModal, setShowPatientModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('dashboard');
-  const user = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const [formData, setFormData] = useState({
     patientId: '',
@@ -31,11 +31,24 @@ const HospitalDashboard = () => {
 
   useEffect(() => {
     fetchData();
+    fetchUserProfile();
 
     const handleViewChange = (e) => setActiveView(e.detail);
     window.addEventListener('change-view', handleViewChange);
     return () => window.removeEventListener('change-view', handleViewChange);
   }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      const res = await api.get('/users/profile');
+      const currentUser = JSON.parse(localStorage.getItem('user'));
+      const updatedUser = { ...currentUser, ...res.data };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    } catch (err) {
+      console.error("Error fetching user profile:", err);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -76,7 +89,7 @@ const HospitalDashboard = () => {
       setPatientFormData({ name: '', age: '', gender: 'male', bloodGroup: '' });
       fetchData();
     } catch (err) {
-      toast.error("Failed to add patient");
+      toast.error(err.response?.data?.message || "Failed to add patient");
     }
   };
 
@@ -167,17 +180,35 @@ const HospitalDashboard = () => {
         </div>
         <div className="flex gap-4">
           {activeView === 'patients' && (
-            <button onClick={() => setShowPatientModal(true)} className="btn bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(37,99,235,0.4)]">
+            <button
+              onClick={() => setShowPatientModal(true)}
+              className={`btn ${user?.isVerified ? 'bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(37,99,235,0.4)]' : 'btn-disabled opacity-50 cursor-not-allowed'}`}
+              disabled={!user?.isVerified}
+            >
               <FaUserPlus size={20} /> Add Patient
             </button>
           )}
           {activeView === 'requests' && (
-            <button onClick={() => setShowModal(true)} className="btn btn-primary">
+            <button
+              onClick={() => setShowModal(true)}
+              className={`btn ${user?.isVerified ? 'btn-primary' : 'btn-disabled opacity-50 cursor-not-allowed'}`}
+              disabled={!user?.isVerified}
+            >
               <FaPlus size={20} /> New Blood Request
             </button>
           )}
         </div>
       </header>
+
+      {!user?.isVerified && (
+        <div className="mb-8 p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center gap-4 text-orange-500">
+          <FaClipboardList size={24} />
+          <div>
+            <h3 className="font-bold">Account Under Verification</h3>
+            <p className="text-sm">Your hospital account is currently being reviewed by an administrator. You will be able to add patients and create blood requests once verified.</p>
+          </div>
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         {activeView === 'dashboard' && renderDashboard()}

@@ -7,6 +7,7 @@ import {
   Param,
   UseGuards,
   Request,
+  ForbiddenException,
 } from '@nestjs/common';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './dto/create-request.dto';
@@ -22,6 +23,9 @@ export class RequestController {
   @Post('create')
   @Roles('hospital')
   create(@Body() createRequestDto: CreateRequestDto, @Request() req) {
+    if (req.user.role === 'hospital' && !req.user.isVerified) {
+      throw new ForbiddenException('Your hospital account is not verified yet.');
+    }
     return this.requestService.create(createRequestDto, req.user.userId);
   }
 

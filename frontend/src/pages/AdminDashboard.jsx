@@ -39,25 +39,23 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleVerify = async (userId) => {
+  const handleVerifyToggle = async (userId, currentStatus) => {
     try {
-      await api.patch(`/users/verify/${userId}`);
-      toast.success('Hospital verified successfully!');
+      await api.patch(`/users/verify/${userId}`, { status: !currentStatus });
+      toast.success(`Hospital ${!currentStatus ? 'verified' : 'verification revoked'} successfully!`);
       fetchData();
     } catch (err) {
-      toast.error("Verification failed");
+      toast.error("Verification update failed");
     }
   };
 
   const handleDeleteUser = async (userId) => {
-    if (window.confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
-      try {
-        await api.delete(`/users/${userId}`);
-        toast.success('User deleted successfully!');
-        fetchData();
-      } catch (err) {
-        toast.error(err.response?.data?.message || "Failed to delete user");
-      }
+    try {
+      await api.delete(`/users/${userId}`);
+      toast.success('User deleted successfully!');
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete user");
     }
   };
 
@@ -146,12 +144,12 @@ const AdminDashboard = () => {
             </td>
             <td>
               <div className="flex items-center gap-2">
-                {u.role === 'hospital' && !u.isVerified && (
+                {u.role === 'hospital' && (
                   <button
-                    onClick={() => handleVerify(u._id)}
-                    className="btn bg-success text-white hover:bg-success/80 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(16,185,129,0.4)] px-3 py-1.5 text-[10px] gap-1"
+                    onClick={() => handleVerifyToggle(u._id, u.isVerified)}
+                    className={`btn px-3 py-1.5 text-[10px] gap-1 ${u.isVerified ? 'bg-orange-500 text-white hover:bg-orange-600 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(249,115,22,0.4)]' : 'bg-success text-white hover:bg-success/80 hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(16,185,129,0.4)]'}`}
                   >
-                    <FaShieldAlt size={12} /> Verify Now
+                    <FaShieldAlt size={12} /> {u.isVerified ? 'Unverify Now' : 'Verify Now'}
                   </button>
                 )}
                 <button
